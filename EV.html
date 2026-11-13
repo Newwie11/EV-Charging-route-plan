@@ -1,0 +1,3483 @@
+<!DOCTYPE html>
+<html lang="th" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#060911" id="themeColorMeta">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="mobile-web-app-capable" content="yes">
+<title>ระบบวางแผนเส้นทางและโครงข่ายสถานีอัดประจุยานยนต์ไฟฟ้าแห่งประเทศไทย | National EV Route & Grid Platform</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-app: #060911;
+  --bg-panel: rgba(13, 19, 31, 0.88);
+  --bg-panel-solid: #0d131f;
+  --bg-card: rgba(22, 31, 48, 0.72);
+  --bg-card-hover: rgba(30, 42, 64, 0.88);
+  --bg-card-alt: rgba(17, 24, 39, 0.9);
+  --bg-input: rgba(10, 15, 26, 0.9);
+  --bg-map: #05080f;
+  --bg-glass: rgba(15, 23, 42, 0.78);
+  --border: rgba(56, 78, 114, 0.36);
+  --border-subtle: rgba(38, 54, 82, 0.45);
+  --border-highlight: rgba(255, 255, 255, 0.08);
+  --border-focus: #38bdf8;
+  --text-main: #f8fafc;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --primary: #3b82f6;
+  --primary-cyan: #06b6d4;
+  --primary-hover: #2563eb;
+  --primary-soft: rgba(59, 130, 246, 0.16);
+  --primary-glow: rgba(56, 189, 248, 0.35);
+  --accent-amber: #f59e0b;
+  --accent-amber-soft: rgba(245, 158, 11, 0.16);
+  --accent-amber-glow: rgba(245, 158, 11, 0.35);
+  --success: #10b981;
+  --success-soft: rgba(16, 185, 129, 0.16);
+  --danger: #f43f5e;
+  --danger-soft: rgba(244, 63, 94, 0.16);
+  --map-cell: #0f1726;
+  --map-cell-hover: #172338;
+  --map-cell-stroke: #1e2d45;
+  --map-cell-hit: rgba(37, 99, 235, 0.28);
+  --map-cell-hit-hover: rgba(56, 189, 248, 0.38);
+  --map-out: #38bdf8;
+  --map-road: #243552;
+  --map-route: #38bdf8;
+  --map-route-glow: rgba(56, 189, 248, 0.45);
+  --map-city-fill: #0b111e;
+  --map-city-stroke: #e2e8f0;
+  --map-label-fill: #f1f5f9;
+  --map-label-halo: #05080f;
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.35);
+  --shadow-md: 0 8px 28px -4px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.07);
+  --shadow-card: 0 4px 16px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  --font-sans: "IBM Plex Sans Thai", "Inter", system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+}
+
+:root[data-theme="light"] {
+  --bg-app: #f1f5f9;
+  --bg-panel: rgba(255, 255, 255, 0.92);
+  --bg-panel-solid: #ffffff;
+  --bg-card: #ffffff;
+  --bg-card-hover: #f8fafc;
+  --bg-card-alt: #f1f5f9;
+  --bg-input: #f8fafc;
+  --bg-map: #dbeafe;
+  --bg-glass: rgba(255, 255, 255, 0.88);
+  --border: #cbd5e1;
+  --border-subtle: #e2e8f0;
+  --border-highlight: rgba(255, 255, 255, 0.8);
+  --border-focus: #2563eb;
+  --text-main: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #64748b;
+  --primary: #2563eb;
+  --primary-cyan: #0284c7;
+  --primary-hover: #1d4ed8;
+  --primary-soft: rgba(37, 99, 235, 0.1);
+  --primary-glow: rgba(37, 99, 235, 0.25);
+  --accent-amber: #d97706;
+  --accent-amber-soft: rgba(217, 119, 6, 0.12);
+  --accent-amber-glow: rgba(217, 119, 6, 0.25);
+  --success: #059669;
+  --success-soft: rgba(5, 150, 105, 0.12);
+  --danger: #e11d48;
+  --danger-soft: rgba(225, 29, 72, 0.1);
+  --map-cell: #f8fafc;
+  --map-cell-hover: #eff6ff;
+  --map-cell-stroke: #cbd5e1;
+  --map-cell-hit: rgba(37, 99, 235, 0.18);
+  --map-cell-hit-hover: rgba(37, 99, 235, 0.28);
+  --map-out: #2563eb;
+  --map-road: #94a3b8;
+  --map-route: #2563eb;
+  --map-route-glow: rgba(37, 99, 235, 0.3);
+  --map-city-fill: #ffffff;
+  --map-city-stroke: #1e293b;
+  --map-label-fill: #0f172a;
+  --map-label-halo: #ffffff;
+  --shadow-sm: 0 2px 6px rgba(15, 23, 42, 0.06);
+  --shadow-md: 0 10px 25px -5px rgba(15, 23, 42, 0.1), 0 4px 10px -2px rgba(15, 23, 42, 0.05);
+  --shadow-card: 0 2px 8px rgba(15, 23, 42, 0.04);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* Custom Sleek Scrollbars */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+
+html, body {
+  height: 100%;
+  height: 100dvh;
+  background: var(--bg-app);
+  color: var(--text-main);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background-image:
+    radial-gradient(circle at 12% 18%, rgba(37, 99, 235, 0.12), transparent 35%),
+    radial-gradient(circle at 88% 85%, rgba(6, 182, 212, 0.1), transparent 35%);
+}
+
+/* --- Top Official Header Bar --- */
+.topbar {
+  height: 62px;
+  background: var(--bg-panel);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-bottom: 1px solid var(--border);
+  box-shadow: 0 1px 0 var(--border-highlight), 0 4px 20px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 22px;
+  flex-shrink: 0;
+  z-index: 40;
+  position: relative;
+}
+
+.topbar::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--primary-cyan), var(--primary), transparent);
+  opacity: 0.65;
+}
+
+.brand-wrap {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.official-emblem {
+  width: 40px;
+  height: 40px;
+  border-radius: 11px;
+  background: linear-gradient(135deg, #2563eb 0%, #06b6d4 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(6, 182, 212, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.35);
+  flex-shrink: 0;
+  position: relative;
+}
+
+.brand-titles {
+  display: flex;
+  flex-direction: column;
+}
+
+.brand-title-th {
+  font-size: 15.5px;
+  font-weight: 700;
+  color: var(--text-main);
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.official-badge {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 1px 7px;
+  border-radius: 99px;
+  background: linear-gradient(90deg, rgba(59, 130, 246, 0.2), rgba(6, 182, 212, 0.2));
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  color: var(--primary-cyan);
+  letter-spacing: 0.05em;
+}
+
+[data-theme="light"] .official-badge {
+  color: var(--primary);
+}
+
+.brand-title-en {
+  font-size: 11px;
+  color: var(--text-secondary);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+}
+
+.topbar-meta {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.sys-indicators {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  padding: 4px 6px;
+  border-radius: 10px;
+  font-size: 12px;
+  color: var(--text-secondary);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.sys-pill {
+  padding: 4px 10px;
+  border-radius: 7px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+}
+
+.sys-pill b {
+  color: var(--text-main);
+  font-family: var(--font-mono);
+  font-weight: 700;
+}
+
+.status-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--success);
+  box-shadow: 0 0 8px var(--success);
+  animation: pulseDot 2s infinite;
+}
+
+@keyframes pulseDot {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.25); opacity: 0.7; }
+}
+
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-icon-text {
+  height: 36px;
+  padding: 0 14px;
+  border-radius: 9px;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text-main);
+  font-family: inherit;
+  font-size: 12.5px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  cursor: pointer;
+  box-shadow: var(--shadow-card);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn-icon-text:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--border-focus);
+  transform: translateY(-1px);
+}
+
+/* --- Main Workspace Layout --- */
+.workspace {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 410px minmax(0, 1fr) 420px;
+  min-height: 0;
+  overflow: hidden;
+}
+
+@media (max-width: 1320px) {
+  .workspace {
+    grid-template-columns: 370px minmax(0, 1fr) 370px;
+  }
+  .sys-indicators { display: none; }
+}
+
+/* --- Sidebars --- */
+.panel {
+  background: var(--bg-panel);
+  backdrop-filter: blur(16px);
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow-y: auto;
+  z-index: 20;
+}
+
+.panel-left {
+  border-right: 1px solid var(--border);
+}
+
+.panel-right {
+  border-left: 1px solid var(--border);
+}
+
+.panel-section {
+  padding: 18px 20px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.section-title {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-main);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.step-num {
+  width: 20px;
+  height: 20px;
+  border-radius: 6px;
+  background: linear-gradient(135deg, var(--primary), var(--primary-cyan));
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 6px var(--primary-glow);
+}
+
+.badge-tag {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 9px;
+  border-radius: 99px;
+  background: var(--primary-soft);
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  color: var(--primary);
+}
+
+[data-theme="dark"] .badge-tag {
+  color: #60a5fa;
+}
+
+/* --- Route Selection Card --- */
+.trip-selector {
+  display: grid;
+  grid-template-columns: 22px 1fr 40px;
+  gap: 12px;
+  align-items: center;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 14px;
+  box-shadow: var(--shadow-card);
+  position: relative;
+  overflow: hidden;
+}
+
+.trip-selector::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 3px;
+  height: 100%;
+  background: linear-gradient(180deg, var(--primary-cyan), var(--accent-amber));
+}
+
+.trip-rail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 84px;
+  justify-content: space-between;
+  padding: 8px 0;
+}
+
+.rail-origin {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 3px solid var(--primary-cyan);
+  background: var(--bg-input);
+  box-shadow: 0 0 8px var(--primary-glow);
+}
+
+.rail-line {
+  flex: 1;
+  width: 2px;
+  background: linear-gradient(180deg, var(--primary-cyan), var(--accent-amber));
+  margin: 4px 0;
+  opacity: 0.6;
+}
+
+.rail-dest {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  background: var(--accent-amber);
+  box-shadow: 0 0 8px var(--accent-amber-glow);
+}
+
+.trip-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.field-row {
+  display: flex;
+  flex-direction: column;
+}
+
+.field-label {
+  font-size: 11px;
+  color: var(--text-secondary);
+  font-weight: 600;
+  margin-bottom: 3px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.select-official {
+  width: 100%;
+  height: 38px;
+  padding: 0 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--bg-input);
+  color: var(--text-main);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.18s;
+}
+
+.select-official:hover {
+  border-color: var(--text-muted);
+}
+
+.select-official:focus {
+  outline: none;
+  border-color: var(--border-focus);
+  box-shadow: 0 0 0 3px var(--primary-soft);
+}
+
+.btn-swap {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--bg-input);
+  color: var(--text-secondary);
+  font-size: 17px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn-swap:hover {
+  color: #ffffff;
+  border-color: var(--primary);
+  background: var(--primary);
+  transform: rotate(180deg);
+  box-shadow: 0 4px 12px var(--primary-glow);
+}
+
+/* Quick Corridor Presets */
+.corridor-bar {
+  margin-top: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.corridor-btn {
+  font-size: 11.5px;
+  font-weight: 500;
+  padding: 5px 10px;
+  border-radius: 99px;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text-secondary);
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.18s;
+}
+
+.corridor-btn:hover {
+  color: var(--text-main);
+  border-color: var(--border-focus);
+  background: var(--primary-soft);
+  transform: translateY(-1px);
+}
+
+/* --- Technical Parameters --- */
+.param-group {
+  margin-bottom: 16px;
+}
+
+.param-group:last-child {
+  margin-bottom: 0;
+}
+
+.param-label-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.param-label {
+  font-size: 12.5px;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.param-val {
+  font-size: 15px;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  color: var(--primary-cyan);
+}
+
+[data-theme="light"] .param-val {
+  color: var(--primary);
+}
+
+.chips {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.chip {
+  height: 40px;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  background: var(--bg-card);
+  color: var(--text-secondary);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: var(--shadow-card);
+}
+
+.chip:hover {
+  border-color: var(--border-focus);
+  color: var(--text-main);
+  transform: translateY(-1px);
+}
+
+.chip[aria-pressed="true"] {
+  background: linear-gradient(135deg, #2563eb, #0284c7);
+  color: #ffffff;
+  border-color: transparent;
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.4);
+}
+
+/* Segmented High-Tech Battery Gauge */
+.batt-meter {
+  position: relative;
+  height: 16px;
+  border-radius: 8px;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  padding: 2px;
+  overflow: hidden;
+  margin-bottom: 10px;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.35);
+}
+
+.batt-meter i {
+  display: block;
+  height: 100%;
+  width: 90%;
+  background: linear-gradient(90deg, #059669, #10b981, #34d399);
+  border-radius: 5px;
+  transition: width 0.25s cubic-bezier(0.16, 1, 0.3, 1), background 0.25s;
+  box-shadow: 0 0 12px rgba(16, 185, 129, 0.45);
+  position: relative;
+}
+
+.batt-meter::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    90deg,
+    transparent,
+    transparent 14px,
+    rgba(0, 0, 0, 0.28) 14px,
+    rgba(0, 0, 0, 0.28) 16px
+  );
+  pointer-events: none;
+}
+
+input[type="range"] {
+  width: 100%;
+  accent-color: var(--primary);
+  cursor: pointer;
+  height: 6px;
+  border-radius: 99px;
+}
+
+.tech-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.tech-box {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 12px;
+  box-shadow: var(--shadow-card);
+  transition: border-color 0.18s;
+}
+
+.tech-box:hover {
+  border-color: var(--border-focus);
+}
+
+.tech-box label {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: 5px;
+}
+
+.tech-box select, .tech-box input {
+  width: 100%;
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-input);
+  color: var(--text-main);
+  font-family: inherit;
+  font-size: 12.5px;
+  font-weight: 600;
+  padding: 6px 8px;
+  border-radius: 6px;
+}
+
+.tech-box select:focus, .tech-box input:focus {
+  outline: none;
+  border-color: var(--border-focus);
+}
+
+.btn-primary-go {
+  width: 100%;
+  height: 46px;
+  border: 0;
+  border-radius: 11px;
+  background: linear-gradient(135deg, #2563eb 0%, #0284c7 50%, #1d4ed8 100%);
+  background-size: 200% auto;
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 14.5px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn-primary-go:hover {
+  background-position: right center;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 25px rgba(6, 182, 212, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+}
+
+.btn-primary-go:active {
+  transform: translateY(1px);
+}
+
+/* --- Center Map Stage --- */
+.stage {
+  position: relative;
+  background-color: var(--bg-map);
+  background-image:
+    radial-gradient(circle at 50% 45%, rgba(37, 99, 235, 0.14), transparent 65%),
+    linear-gradient(rgba(56, 189, 248, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(56, 189, 248, 0.03) 1px, transparent 1px);
+  background-size: 100% 100%, 36px 36px, 36px 36px;
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.stage svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  touch-action: none;
+  cursor: grab;
+  user-select: none;
+}
+
+.stage svg.grab {
+  cursor: grabbing;
+}
+
+/* Map SVG Elements */
+.cell, .out, .rd, #rt, .dash {
+  vector-effect: non-scaling-stroke;
+}
+
+.cell {
+  fill: var(--map-cell);
+  stroke: var(--map-cell-stroke);
+  stroke-width: 1;
+  transition: fill 0.15s;
+  cursor: pointer;
+}
+
+.cell:hover {
+  fill: var(--map-cell-hover);
+}
+
+.cell.hit {
+  fill: var(--map-cell-hit);
+  stroke: rgba(56, 189, 248, 0.45);
+}
+
+.cell.hit:hover {
+  fill: var(--map-cell-hit-hover);
+}
+
+.out {
+  fill: none;
+  stroke: var(--map-out);
+  stroke-width: 1.8;
+  stroke-opacity: 0.65;
+  pointer-events: none;
+  filter: drop-shadow(0 0 8px var(--primary-glow));
+}
+
+.rd {
+  stroke: var(--map-road);
+  stroke-width: 1.1;
+  pointer-events: none;
+  transition: opacity 0.2s;
+}
+
+#rt-glow {
+  fill: none;
+  stroke: var(--map-route-glow);
+  stroke-width: 13;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  pointer-events: none;
+}
+
+#rt {
+  fill: none;
+  stroke: url(#routeGrad);
+  stroke-width: 4.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  pointer-events: none;
+}
+
+.dash {
+  fill: none;
+  stroke: #ffffff;
+  stroke-width: 1.8;
+  stroke-dasharray: 4 14;
+  animation: flow 0.8s linear infinite;
+  pointer-events: none;
+  opacity: 0.92;
+}
+
+@keyframes flow {
+  to { stroke-dashoffset: -18; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dash { animation: none; }
+}
+
+.cn {
+  fill: var(--map-city-fill);
+  stroke: var(--map-city-stroke);
+  pointer-events: none;
+}
+
+.cn[data-h="1"] {
+  fill: var(--primary-cyan);
+  stroke: #ffffff;
+}
+
+.sn {
+  fill: var(--accent-amber);
+  stroke: var(--map-city-fill);
+  cursor: pointer;
+}
+
+.sn[data-h="1"] {
+  fill: #fbbf24;
+  stroke: #ffffff;
+}
+
+.lb {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  fill: var(--map-label-fill);
+  stroke: var(--map-label-halo);
+  paint-order: stroke;
+  pointer-events: none;
+  fill-opacity: 0.88;
+}
+
+.lb[data-h="1"] {
+  font-weight: 700;
+  fill-opacity: 1;
+}
+
+/* Map Overlay Toolbars */
+.map-top-overlay {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  right: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  pointer-events: none;
+  gap: 10px;
+  flex-wrap: wrap;
+  z-index: 15;
+}
+
+.layer-pills {
+  display: flex;
+  gap: 4px;
+  background: var(--bg-glass);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid var(--border);
+  padding: 5px;
+  border-radius: 11px;
+  box-shadow: var(--shadow-md);
+  pointer-events: auto;
+}
+
+.layer-btn {
+  padding: 6px 12px;
+  border-radius: 7px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--text-secondary);
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.18s;
+}
+
+.layer-btn:hover {
+  color: var(--text-main);
+}
+
+.layer-btn.active {
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.25), rgba(6, 182, 212, 0.2));
+  color: #38bdf8;
+  border-color: rgba(56, 189, 248, 0.35);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+[data-theme="light"] .layer-btn.active {
+  color: var(--primary);
+  background: var(--primary-soft);
+}
+
+.gis-coords-box {
+  background: var(--bg-glass);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--border);
+  padding: 7px 14px;
+  border-radius: 10px;
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  box-shadow: var(--shadow-md);
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.gis-coords-box::before {
+  content: "◎";
+  color: var(--primary-cyan);
+  font-size: 13px;
+}
+
+.zoom-controls {
+  position: absolute;
+  right: 16px;
+  top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  z-index: 15;
+}
+
+.zoom-controls button {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--bg-glass);
+  backdrop-filter: blur(16px);
+  color: var(--text-main);
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: var(--shadow-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.18s;
+}
+
+.zoom-controls button:hover {
+  background: var(--primary);
+  color: #ffffff;
+  border-color: var(--primary);
+  transform: scale(1.05);
+}
+
+/* Simulation / Navigation Playback Bar on Map Bottom */
+.sim-bar {
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
+  left: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  pointer-events: none;
+  flex-wrap: wrap;
+  z-index: 15;
+}
+
+.map-legend {
+  background: var(--bg-glass);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--border);
+  padding: 9px 16px;
+  border-radius: 11px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  box-shadow: var(--shadow-md);
+  pointer-events: auto;
+}
+
+.map-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.sim-controller {
+  background: var(--bg-glass);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--border);
+  padding: 6px 12px;
+  border-radius: 11px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: var(--shadow-md);
+  pointer-events: auto;
+}
+
+.sim-btn {
+  height: 30px;
+  padding: 0 12px;
+  border-radius: 7px;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text-main);
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.sim-btn:hover {
+  background: var(--primary);
+  color: #ffffff;
+  border-color: var(--primary);
+}
+
+.sim-status {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--primary-cyan);
+  min-width: 130px;
+  text-align: right;
+}
+
+[data-theme="light"] .sim-status {
+  color: var(--primary);
+}
+
+/* Province Quick Action Popup on Map Click */
+.map-popup {
+  position: absolute;
+  bottom: 72px;
+  left: 16px;
+  background: var(--bg-glass);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--border-focus);
+  border-radius: 14px;
+  padding: 14px 16px;
+  box-shadow: var(--shadow-md);
+  min-width: 270px;
+  display: none;
+  z-index: 25;
+  animation: popIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes popIn {
+  from { opacity: 0; transform: translateY(8px) scale(0.97); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.map-popup.show {
+  display: block;
+}
+
+.popup-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.popup-title {
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--text-main);
+}
+
+.popup-close {
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  border: 0;
+  background: var(--bg-card);
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.popup-meta {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-bottom: 12px;
+  font-family: var(--font-mono);
+}
+
+.popup-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.popup-btn {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text-main);
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.popup-btn:hover {
+  border-color: var(--border-focus);
+}
+
+.popup-btn.primary {
+  background: linear-gradient(135deg, #2563eb, #0284c7);
+  color: #fff;
+  border-color: transparent;
+}
+
+/* --- Right Panel: Route Telemetry & Schedule --- */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.kpi-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px 10px;
+  text-align: center;
+  box-shadow: var(--shadow-card);
+  position: relative;
+  overflow: hidden;
+}
+
+.kpi-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--primary), var(--primary-cyan));
+}
+
+.kpi-card:nth-child(3)::before {
+  background: linear-gradient(90deg, var(--accent-amber), #fbbf24);
+}
+
+.kpi-card b {
+  display: block;
+  font-size: 24px;
+  font-weight: 800;
+  font-family: var(--font-mono);
+  color: var(--text-main);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+.kpi-card span {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  margin-top: 3px;
+  display: block;
+}
+
+.cost-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.cost-box {
+  background: var(--bg-card-alt);
+  border: 1px solid var(--border-subtle);
+  border-radius: 10px;
+  padding: 10px 11px;
+  box-shadow: var(--shadow-card);
+}
+
+.cost-box small {
+  display: block;
+  font-size: 10.5px;
+  font-weight: 500;
+  color: var(--text-muted);
+  margin-bottom: 2px;
+}
+
+.cost-box strong {
+  font-size: 13.5px;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  color: var(--text-main);
+}
+
+.cost-box.saving {
+  background: var(--success-soft);
+  border-color: rgba(16, 185, 129, 0.3);
+}
+
+.cost-box.saving strong {
+  color: var(--success);
+}
+
+/* SoC Telemetry Chart Canvas */
+.chart-container {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px;
+  margin-top: 12px;
+  box-shadow: var(--shadow-card);
+}
+
+.chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+}
+
+canvas#socChart {
+  width: 100%;
+  height: 120px;
+  display: block;
+}
+
+/* Province Sequence Breadcrumb Pills */
+.prov-flow {
+  margin-top: 12px;
+  padding: 12px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  font-size: 12px;
+  color: var(--text-secondary);
+  box-shadow: var(--shadow-card);
+}
+
+.prov-flow-title {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.prov-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  align-items: center;
+}
+
+.prov-pill {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 9px;
+  border-radius: 6px;
+  background: var(--bg-input);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-main);
+}
+
+.prov-pill.origin {
+  border-color: var(--primary-cyan);
+  background: var(--primary-soft);
+}
+
+.prov-pill.dest {
+  border-color: var(--success);
+  background: var(--success-soft);
+}
+
+.prov-arrow {
+  color: var(--text-muted);
+  font-size: 10px;
+}
+
+/* Timeline Manifest */
+ul.tl {
+  list-style: none;
+  margin: 16px 0 0 10px;
+  padding: 0 0 0 20px;
+  border-left: 2px solid var(--border);
+}
+
+ul.tl li {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 82px;
+  gap: 10px;
+  align-items: center;
+  padding: 12px 14px;
+  margin-bottom: 10px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  cursor: pointer;
+  box-shadow: var(--shadow-card);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+ul.tl li:hover {
+  border-color: var(--border-focus);
+  background: var(--bg-card-hover);
+  transform: translateX(3px);
+}
+
+ul.tl li::before {
+  content: "";
+  position: absolute;
+  left: -27px;
+  top: 50%;
+  width: 12px;
+  height: 12px;
+  margin-top: -6px;
+  border-radius: 50%;
+  background: var(--bg-panel-solid);
+  border: 3px solid var(--primary-cyan);
+  box-shadow: 0 0 8px var(--primary-glow);
+}
+
+ul.tl li.charge {
+  border-left: 3.5px solid var(--accent-amber);
+  background: linear-gradient(90deg, rgba(245, 158, 11, 0.07), var(--bg-card) 45%);
+}
+
+ul.tl li.charge::before {
+  background: var(--accent-amber);
+  border-color: #fde68a;
+  box-shadow: 0 0 10px var(--accent-amber-glow);
+}
+
+ul.tl li.end {
+  border-left: 3.5px solid var(--success);
+}
+
+ul.tl li.end::before {
+  background: var(--success);
+  border-color: #a7f3d0;
+  box-shadow: 0 0 10px rgba(16, 185, 129, 0.4);
+}
+
+ul.tl li.via {
+  border-left: 3.5px solid #8b5cf6;
+  background: rgba(139, 92, 246, 0.1);
+}
+
+ul.tl li.via::before {
+  background: #8b5cf6;
+  border-color: #ddd6fe;
+  box-shadow: 0 0 10px rgba(139, 92, 246, 0.45);
+}
+
+ul.tl b {
+  display: block;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+ul.tl span {
+  display: block;
+  font-size: 11.5px;
+  color: var(--text-secondary);
+  margin-top: 3px;
+  line-height: 1.4;
+}
+
+.soc-pill-wrap {
+  text-align: right;
+}
+
+.soc-pill-label {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 5px;
+}
+
+.mb {
+  height: 7px;
+  border-radius: 99px;
+  background: var(--bg-input);
+  overflow: hidden;
+  border: 1px solid var(--border-subtle);
+}
+
+.mb i {
+  display: block;
+  height: 100%;
+  border-radius: 99px;
+  background: linear-gradient(90deg, #059669, #10b981);
+}
+
+li.charge .mb i {
+  background: linear-gradient(90deg, #d97706, #fbbf24);
+}
+
+.err-box {
+  padding: 16px;
+  border-radius: 12px;
+  background: var(--danger-soft);
+  border: 1px solid var(--danger);
+  color: var(--danger);
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.hint-box {
+  padding: 16px;
+  border-radius: 12px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  font-size: 13px;
+}
+
+/* Station Search Directory in Left Sidebar Bottom */
+.search-input {
+  width: 100%;
+  height: 38px;
+  padding: 0 12px;
+  border-radius: 9px;
+  border: 1px solid var(--border);
+  background: var(--bg-input);
+  color: var(--text-main);
+  font-family: inherit;
+  font-size: 12.5px;
+  margin-bottom: 10px;
+  transition: all 0.18s;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--border-focus);
+  box-shadow: 0 0 0 3px var(--primary-soft);
+}
+
+.station-list-mini {
+  max-height: 180px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-right: 2px;
+}
+
+.station-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  border-radius: 9px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  font-size: 12.5px;
+  cursor: pointer;
+  transition: all 0.16s;
+}
+
+.station-row:hover {
+  border-color: var(--border-focus);
+  background: var(--bg-card-hover);
+  transform: translateX(2px);
+}
+
+.station-row small {
+  color: var(--primary-cyan);
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 11px;
+}
+
+[data-theme="light"] .station-row small {
+  color: var(--primary);
+}
+
+.foot-note {
+  padding: 14px 20px;
+  font-size: 11px;
+  color: var(--text-muted);
+  line-height: 1.55;
+  margin-top: auto;
+  background: var(--bg-card-alt);
+  border-top: 1px solid var(--border-subtle);
+}
+
+/* --- Mobile App Components (Hidden on Desktop) --- */
+.mobile-nav, .mobile-route-pill, #btnMobileLegend, .plan-mobile-feedback {
+  display: none;
+}
+
+@media (max-width: 980px) {
+  .topbar {
+    height: auto;
+    min-height: 54px;
+    padding: calc(8px + env(safe-area-inset-top, 0px)) 14px 8px;
+  }
+  .official-emblem {
+    width: 34px;
+    height: 34px;
+    border-radius: 9px;
+  }
+  .brand-wrap { gap: 10px; min-width: 0; }
+  .brand-titles { min-width: 0; }
+  .brand-title-th {
+    font-size: 13.5px;
+    line-height: 1.25;
+  }
+  .brand-title-en { display: none; }
+
+  .workspace {
+    flex: 1;
+    min-height: 0;
+    display: block;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .panel, .stage {
+    display: none;
+    width: 100%;
+    height: 100%;
+    border-left: 0 !important;
+    border-right: 0 !important;
+  }
+
+  body[data-mobile-tab="plan"] .panel-left { display: flex; }
+  body[data-mobile-tab="map"] .stage { display: flex; }
+  body[data-mobile-tab="report"] .panel-right { display: flex; }
+
+  .panel-section { padding: 14px 16px; }
+
+  /* Sticky Bottom App Navigation Bar */
+  .mobile-nav {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+    background: var(--bg-panel);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-top: 1px solid var(--border);
+    padding: 6px 10px calc(6px + env(safe-area-inset-bottom, 0px));
+    flex-shrink: 0;
+    z-index: 45;
+    box-shadow: 0 -6px 24px rgba(0, 0, 0, 0.28);
+  }
+
+  .mnav-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    height: 48px;
+    border-radius: 11px;
+    border: 1px solid transparent;
+    background: transparent;
+    color: var(--text-secondary);
+    font-family: inherit;
+    font-size: 11.5px;
+    font-weight: 600;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .mnav-btn svg {
+    width: 19px;
+    height: 19px;
+  }
+
+  .mnav-btn.active {
+    color: var(--primary-cyan);
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.2), rgba(6, 182, 212, 0.14));
+    border-color: rgba(56, 189, 248, 0.32);
+  }
+
+  [data-theme="light"] .mnav-btn.active {
+    color: var(--primary);
+    background: var(--primary-soft);
+    border-color: rgba(37, 99, 235, 0.22);
+  }
+
+  .mnav-badge {
+    position: absolute;
+    top: 4px;
+    right: calc(50% - 36px);
+    font-style: normal;
+    font-size: 9.5px;
+    font-weight: 700;
+    font-family: var(--font-mono);
+    padding: 1px 6px;
+    border-radius: 99px;
+    background: var(--accent-amber);
+    color: #0f172a;
+    box-shadow: 0 2px 6px var(--accent-amber-glow);
+    display: none;
+  }
+
+  .mnav-badge.show { display: inline-block; }
+
+  /* Mobile Map Overlays */
+  .map-top-overlay {
+    top: 10px;
+    left: 10px;
+    right: 58px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 7px;
+  }
+
+  .layer-pills {
+    max-width: 100%;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    scrollbar-width: none;
+    padding: 4px;
+  }
+  .layer-pills::-webkit-scrollbar { display: none; }
+
+  .layer-btn {
+    white-space: nowrap;
+    flex-shrink: 0;
+    padding: 6px 10px;
+    font-size: 11.5px;
+  }
+
+  .gis-coords-box { display: none; }
+
+  .mobile-route-pill {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    width: 100%;
+    background: var(--bg-glass);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border: 1px solid var(--border);
+    border-radius: 11px;
+    padding: 7px 10px;
+    box-shadow: var(--shadow-md);
+    pointer-events: auto;
+  }
+
+  .mrp-route {
+    min-width: 0;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+  }
+
+  .mrp-title {
+    font-size: 12.5px;
+    font-weight: 700;
+    color: var(--text-main);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .mrp-sub {
+    font-size: 11px;
+    font-family: var(--font-mono);
+    color: var(--primary-cyan);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  [data-theme="light"] .mrp-sub { color: var(--primary); }
+
+  .mrp-btn {
+    flex-shrink: 0;
+    height: 30px;
+    padding: 0 10px;
+    border-radius: 7px;
+    border: 1px solid rgba(56, 189, 248, 0.35);
+    background: var(--primary-soft);
+    color: var(--primary-cyan);
+    font-family: inherit;
+    font-size: 11.5px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  [data-theme="light"] .mrp-btn { color: var(--primary); }
+
+  .zoom-controls {
+    top: 10px;
+    right: 10px;
+  }
+
+  #btnMobileLegend {
+    display: flex;
+    font-size: 14px;
+  }
+
+  .map-popup {
+    left: 10px;
+    right: 10px;
+    bottom: 64px;
+    min-width: 0;
+    width: auto;
+  }
+
+  .popup-btn {
+    min-height: 42px;
+    font-size: 13px;
+  }
+
+  .sim-bar {
+    bottom: 10px;
+    left: 10px;
+    right: 10px;
+    gap: 8px;
+  }
+
+  .sim-controller {
+    width: 100%;
+    justify-content: space-between;
+    padding: 6px 10px;
+    gap: 6px;
+  }
+
+  .sim-btn {
+    height: 34px;
+    padding: 0 10px;
+    font-size: 12px;
+    white-space: nowrap;
+  }
+
+  .sim-status {
+    min-width: 0;
+    font-size: 11.5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .map-legend {
+    display: none;
+    width: 100%;
+    flex-wrap: wrap;
+    gap: 8px 14px;
+    font-size: 11.5px;
+    padding: 10px 12px;
+  }
+
+  .map-legend.mobile-open { display: flex; }
+
+  .plan-mobile-feedback.show { display: block; }
+}
+
+@media (max-width: 640px) {
+  .official-badge { display: none; }
+  .brand-title-th { font-size: 13px; }
+  .btn-icon-text {
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    justify-content: center;
+  }
+  .btn-icon-text .btn-label { display: none; }
+
+  /* Prevent iOS Safari input focus zoom & boost touch target ergonomics */
+  .select-official, .tech-box select, .tech-box input, .search-input {
+    font-size: 16px;
+    min-height: 42px;
+  }
+  .chip { height: 44px; font-size: 13px; }
+  .btn-swap { width: 42px; height: 42px; }
+  .btn-primary-go { height: 48px; font-size: 14.5px; }
+
+  .corridor-bar {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+    padding-bottom: 2px;
+  }
+  .corridor-bar::-webkit-scrollbar { display: none; }
+  .corridor-btn {
+    flex-shrink: 0;
+    padding: 7px 12px;
+    font-size: 12px;
+  }
+
+  input[type="range"] { height: 28px; }
+  .station-row { min-height: 44px; }
+
+  .kpi-grid { gap: 7px; }
+  .kpi-card { padding: 10px 6px; }
+  .kpi-card b { font-size: 20px; }
+
+  .cost-summary-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .cost-box.saving { grid-column: 1 / -1; }
+
+  ul.tl { margin: 14px 0 0 6px; padding: 0 0 0 16px; }
+  ul.tl li { grid-template-columns: 1fr 70px; padding: 11px 12px; }
+  ul.tl li::before { left: -23px; }
+  #via, #chargerKw, #depTime { font-size: 16px; }
+  .strategy-bar { gap: 5px; }
+  .strategy-btn { padding: 8px 4px; font-size: 11.5px; }
+  .report-actions { gap: 5px; }
+  .report-btn { padding: 8px 6px; font-size: 11px; }
+  .sim-scrub-wrap { flex: 1 1 100%; order: 4; padding-top: 2px; }
+  .toast.show { bottom: calc(76px + env(safe-area-inset-bottom, 0px)); }
+}
+
+/* ===== V3 UPGRADE: STRATEGY, WAYPOINT, TELEMETRY, SCRUBBER & EXPORT UI ===== */
+.via-pill-tag {
+  font-size: 10px;
+  font-weight: 700;
+  color: #a78bfa;
+  background: rgba(139, 92, 246, 0.16);
+  padding: 1px 6px;
+  border-radius: 999px;
+}
+.strategy-bar {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px;
+  margin-top: 10px;
+}
+.strategy-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  padding: 7px 6px;
+  border-radius: 9px;
+  border: 1px solid var(--border);
+  background: var(--bg-input);
+  color: var(--text-secondary);
+  font-family: var(--font-sans);
+  font-size: 11.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  text-align: center;
+  line-height: 1.25;
+}
+.strategy-btn small {
+  font-size: 9.5px;
+  font-weight: 400;
+  color: var(--text-muted);
+}
+.strategy-btn:hover {
+  border-color: var(--primary-cyan);
+  color: var(--text-main);
+  background: var(--bg-card-hover);
+}
+.strategy-btn.active {
+  border-color: var(--primary-cyan);
+  background: var(--primary-soft);
+  color: var(--text-main);
+  box-shadow: inset 0 0 0 1px rgba(56, 189, 248, 0.28);
+}
+.strategy-btn.active small {
+  color: var(--primary-cyan);
+  font-weight: 600;
+}
+
+.region-bar {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 5px;
+  overflow-x: auto;
+  padding: 2px 0 7px;
+  margin-bottom: 6px;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.region-bar::-webkit-scrollbar { display: none; }
+.region-pill {
+  flex: 0 0 auto;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--bg-input);
+  color: var(--text-secondary);
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.16s ease;
+  white-space: nowrap;
+}
+.region-pill:hover {
+  border-color: var(--primary-cyan);
+  color: var(--text-main);
+}
+.region-pill.active {
+  background: var(--primary-soft);
+  border-color: var(--primary-cyan);
+  color: var(--primary-cyan);
+}
+
+.sim-controller {
+  flex-wrap: wrap;
+}
+.sim-speed-btn {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  min-width: 38px;
+  text-align: center;
+}
+.sim-scrub-wrap {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: 1 1 115px;
+  min-width: 105px;
+}
+.sim-scrub {
+  width: 100%;
+  accent-color: var(--primary-cyan);
+  cursor: pointer;
+  height: 4px;
+  margin: 0;
+}
+
+.chart-hover-info {
+  margin-top: 6px;
+  min-height: 24px;
+  padding: 4px 9px;
+  border-radius: 7px;
+  background: var(--bg-input);
+  border: 1px solid var(--border-subtle);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.chart-hover-info strong {
+  color: var(--primary-cyan);
+}
+
+.report-actions {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px;
+  margin-bottom: 12px;
+}
+.report-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 7px 6px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text-main);
+  font-family: var(--font-sans);
+  font-size: 11.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.16s ease;
+  white-space: nowrap;
+}
+.report-btn:hover {
+  border-color: var(--primary-cyan);
+  background: var(--bg-card-hover);
+  transform: translateY(-1px);
+}
+.algo-telemetry {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 10px;
+  padding: 7px 10px;
+  border-radius: 8px;
+  background: var(--bg-input);
+  border: 1px solid var(--border-subtle);
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  color: var(--text-muted);
+}
+.algo-telemetry b {
+  color: var(--primary-cyan);
+  font-weight: 600;
+}
+
+.popup-actions {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px;
+}
+.popup-btn.amber {
+  border-color: rgba(139, 92, 246, 0.48);
+  color: #a78bfa;
+  background: rgba(139, 92, 246, 0.14);
+}
+
+.pin-badge { pointer-events: none; }
+.pin-badge circle {
+  stroke: #ffffff;
+  stroke-width: 1.5;
+  filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.55));
+}
+.pin-badge text {
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  font-weight: 800;
+  fill: #ffffff;
+  text-anchor: middle;
+  dominant-baseline: central;
+}
+.pin-a circle { fill: var(--success); }
+.pin-w circle { fill: #8b5cf6; }
+.pin-b circle { fill: var(--danger); }
+.stop-badge { pointer-events: none; }
+.stop-badge circle {
+  fill: var(--accent-amber);
+  stroke: #0f172a;
+  stroke-width: 1.4;
+}
+.stop-badge text {
+  font-family: var(--font-mono);
+  font-size: 7.5px;
+  font-weight: 800;
+  fill: #0f172a;
+  text-anchor: middle;
+  dominant-baseline: central;
+}
+.focus-beacon {
+  fill: none;
+  stroke: var(--primary-cyan);
+  stroke-width: 2;
+  opacity: 0;
+  pointer-events: none;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.focus-beacon.active {
+  animation: beaconPulse 1.5s ease-out infinite;
+}
+@keyframes beaconPulse {
+  0% { opacity: 0.95; transform: scale(0.65); stroke-width: 2.4; }
+  100% { opacity: 0; transform: scale(2.7); stroke-width: 0.6; }
+}
+
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 24px;
+  transform: translate(-50%, 16px);
+  background: var(--bg-panel-solid);
+  color: var(--text-main);
+  border: 1px solid var(--primary-cyan);
+  box-shadow: var(--shadow-md);
+  padding: 9px 16px;
+  border-radius: 999px;
+  font-size: 12.5px;
+  font-weight: 600;
+  z-index: 2000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.22s ease, transform 0.22s ease;
+  max-width: calc(100vw - 32px);
+  text-align: center;
+}
+.toast.show {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+@media print {
+  .topbar-actions, .zoom-controls, .map-top-overlay, .sim-bar, .panel-left, .mobile-nav, .report-actions, .toast {
+    display: none !important;
+  }
+  .panel, .stage {
+    display: flex !important;
+    height: auto !important;
+  }
+  .workspace {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr;
+  }
+}
+</style>
+</head>
+<body data-mobile-tab="map">
+
+<!-- Official Platform Header -->
+<header class="topbar">
+  <div class="brand-wrap">
+    <div class="official-emblem" aria-hidden="true">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+      </svg>
+    </div>
+    <div class="brand-titles">
+      <div class="brand-title-th">
+        ระบบวางแผนเส้นทางและโครงข่ายสถานีอัดประจุยานยนต์ไฟฟ้า
+        <span class="official-badge">NATIONAL EV GRID</span>
+      </div>
+      <div class="brand-title-en">NATIONAL EV ROUTING &amp; CHARGING INFRASTRUCTURE PLATFORM · THAILAND 77 PROVINCES</div>
+    </div>
+  </div>
+
+  <div class="topbar-meta">
+    <div class="sys-indicators">
+      <span class="sys-pill"><i class="status-dot"></i>สถานะ: <b>ออนไลน์</b></span>
+      <span class="sys-pill">โหนด: <b id="nv">323</b></span>
+      <span class="sys-pill">ทางเชื่อม: <b id="ne">457</b></span>
+      <span class="sys-pill">สถานี DC: <b id="ns">246</b></span>
+    </div>
+    <div class="topbar-actions">
+      <button class="btn-icon-text" id="btnPrint" title="พิมพ์รายงานเส้นทาง" aria-label="พิมพ์รายงานเส้นทาง">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+        <span class="btn-label">พิมพ์รายงาน</span>
+      </button>
+      <button class="btn-icon-text" id="btnTheme" title="สลับโหมดสีมืด/สว่าง" aria-label="สลับโหมดสีมืดหรือสว่าง">
+        <span id="themeIcon">☀️</span> <span class="btn-label" id="themeText">โหมดสว่าง</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- Main 3-Column Enterprise Layout -->
+<main class="workspace">
+
+  <!-- LEFT PANEL: Route & Engineering Parameters -->
+  <aside class="panel panel-left">
+    <div class="panel-section">
+      <div class="section-header">
+        <div class="section-title"><span class="step-num">1</span> กำหนดเส้นทาง (Route Selection)</div>
+        <span class="badge-tag">ครบ 77 จังหวัด</span>
+      </div>
+
+      <div class="trip-selector">
+        <div class="trip-rail" aria-hidden="true">
+          <i class="rail-origin"></i>
+          <s class="rail-line"></s>
+          <b class="rail-dest"></b>
+        </div>
+        <div class="trip-fields">
+          <div class="field-row">
+            <span class="field-label"><span>จังหวัดต้นทาง (Origin)</span><span>จุดเริ่มต้น A</span></span>
+            <select id="from" class="select-official" aria-label="ต้นทาง"></select>
+          </div>
+          <div class="field-row">
+            <span class="field-label"><span>จังหวัดแวะผ่าน (Waypoint)</span><span class="via-pill-tag">ทางเลือก W</span></span>
+            <select id="via" class="select-official" aria-label="จุดแวะผ่าน"></select>
+          </div>
+          <div class="field-row">
+            <span class="field-label"><span>จังหวัดปลายทาง (Destination)</span><span>จุดหมาย B</span></span>
+            <select id="to" class="select-official" aria-label="ปลายทาง"></select>
+          </div>
+        </div>
+        <button class="btn-swap" id="swap" aria-label="สลับต้นทางและปลายทาง" title="สลับต้นทาง-ปลายทาง">⇅</button>
+      </div>
+
+      <div class="strategy-bar" id="strategyBar" role="group" aria-label="โหมดการวางแผนเส้นทาง">
+        <button type="button" class="strategy-btn active" data-strategy="fastest">⚡ เร็วที่สุด<small>ลดเวลารวม</small></button>
+        <button type="button" class="strategy-btn" data-strategy="fewest">🛑 ชาร์จน้อยสุด<small>เน้นวิ่งต่อเนื่อง</small></button>
+        <button type="button" class="strategy-btn" data-strategy="safe">🛡️ ปลอดภัยสูง<small>เผื่อสำรองไฟ</small></button>
+      </div>
+
+      <div class="corridor-bar">
+        <button class="corridor-btn" data-from="0" data-to="38">กทม. → เชียงใหม่</button>
+        <button class="corridor-btn" data-from="0" data-to="66">กทม. → ภูเก็ต</button>
+        <button class="corridor-btn" data-from="0" data-to="22">กทม. → อุบลฯ</button>
+        <button class="corridor-btn" data-from="0" data-to="28">กทม. → ขอนแก่น</button>
+        <button class="corridor-btn" data-from="38" data-to="70">เชียงใหม่ → สงขลา</button>
+      </div>
+    </div>
+
+    <div class="panel-section">
+      <div class="section-header">
+        <div class="section-title"><span class="step-num">2</span> พารามิเตอร์แบตเตอรี่และพลังงาน</div>
+      </div>
+
+      <div class="param-group">
+        <div class="param-label-row">
+          <span class="param-label">ระยะวิ่งสูงสุดต่อการชาร์จเต็ม 100%</span>
+          <span class="param-val"><span id="capLabel">300</span> กม.</span>
+        </div>
+        <div class="chips" id="chips">
+          <button class="chip" aria-pressed="false" data-cap="200">200 กม.</button>
+          <button class="chip" aria-pressed="true" data-cap="300">300 กม.</button>
+          <button class="chip" aria-pressed="false" data-cap="400">400 กม.</button>
+          <button class="chip" aria-pressed="false" data-cap="500">500 กม.</button>
+        </div>
+      </div>
+
+      <div class="param-group">
+        <div class="param-label-row">
+          <span class="param-label">ระดับแบตเตอรี่เมื่อออกเดินทาง (Initial SoC)</span>
+          <span class="param-val"><span id="socv">90</span>%</span>
+        </div>
+        <div class="batt-meter"><i id="bar"></i></div>
+        <input id="soc" type="range" min="20" max="100" value="90" aria-label="แบตตอนออกเดินทาง">
+      </div>
+
+      <div class="tech-grid-2">
+        <div class="tech-box">
+          <label for="resSelect">แบตเตอรี่สำรองขั้นต่ำ (Safety Reserve)</label>
+          <select id="resSelect">
+            <option value="10" selected>10% (มาตรฐาน)</option>
+            <option value="15">15% (ปลอดภัยสูง)</option>
+            <option value="20">20% (เผื่อฉุกเฉิน)</option>
+          </select>
+        </div>
+        <div class="tech-box">
+          <label for="speedSelect">ความเร็วเดินทางเฉลี่ย</label>
+          <select id="speedSelect">
+            <option value="80">80 กม./ชม.</option>
+            <option value="90" selected>90 กม./ชม. (อ้างอิง)</option>
+            <option value="100">100 กม./ชม.</option>
+            <option value="110">110 กม./ชม.</option>
+          </select>
+        </div>
+        <div class="tech-box">
+          <label for="kwhCap">ขนาดความจุแบตเตอรี่</label>
+          <select id="kwhCap">
+            <option value="45">45 kWh (Eco EV)</option>
+            <option value="60" selected>60 kWh (Standard)</option>
+            <option value="75">75 kWh (Long Range)</option>
+            <option value="90">90 kWh (Executive)</option>
+          </select>
+        </div>
+        <div class="tech-box">
+          <label for="tariffInput">อัตราค่าไฟฟ้าสถานี (฿/kWh)</label>
+          <input id="tariffInput" type="number" step="0.1" min="4" max="15" value="7.5">
+        </div>
+        <div class="tech-box">
+          <label for="chargerKw">กำลังชาร์จสถานี DC (Power)</label>
+          <select id="chargerKw">
+            <option value="50">50 kW (Standard DC)</option>
+            <option value="120" selected>120 kW (Super Fast)</option>
+            <option value="180">180 kW (Ultra Fast)</option>
+            <option value="250">250 kW (Hyper Charge)</option>
+          </select>
+        </div>
+        <div class="tech-box">
+          <label for="depTime">เวลาออกเดินทาง (Departure)</label>
+          <input id="depTime" type="time" value="08:00">
+        </div>
+      </div>
+
+      <input id="cap" type="hidden" value="300">
+      <input id="res" type="hidden" value="10">
+
+      <div style="margin-top: 16px;">
+        <button class="btn-primary-go" id="go">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
+          คำนวณเส้นทางและจุดแวะชาร์จที่เหมาะสมที่สุด
+        </button>
+        <div class="plan-mobile-feedback" id="planMobileFeedback"></div>
+      </div>
+    </div>
+
+    <div class="panel-section">
+      <div class="section-header">
+        <div class="section-title"><span class="step-num">3</span> ค้นหาจังหวัดและสถานีอัดประจุ</div>
+      </div>
+      <input type="text" id="provSearch" class="search-input" placeholder="🔍 พิมพ์ชื่อจังหวัดเพื่อค้นหาหรือเลือกบนแผนที่...">
+      <div class="region-bar" id="regionFilter" role="tablist" aria-label="กรองจังหวัดตามภูมิภาค">
+        <button type="button" class="region-pill active" data-reg="all">ทั้งหมด (77)</button>
+        <button type="button" class="region-pill" data-reg="central">กลาง-ตะวันตก</button>
+        <button type="button" class="region-pill" data-reg="east">ตะวันออก</button>
+        <button type="button" class="region-pill" data-reg="north">เหนือ</button>
+        <button type="button" class="region-pill" data-reg="northeast">อีสาน</button>
+        <button type="button" class="region-pill" data-reg="south">ใต้</button>
+      </div>
+      <div class="station-list-mini" id="provDirectory"></div>
+    </div>
+
+    <p class="foot-note">
+      อัลกอริทึม: Multi-Stage State-Space Dijkstra คำนวณกราฟควบคู่ระดับประจุแบตเตอรี่ (และจุดแวะผ่าน) · ขอบเขตจังหวัดคำนวณด้วย Voronoi Tessellation จากพิกัดศูนย์กลาง 77 จังหวัด · ระยะทางถนนจริงประมาณค่า = ระยะทางภูมิศาสตร์ (Haversine) × 1.25 · เวลาชาร์จคำนวณตามกำลังไฟ DC (50–250 kW @ ประสิทธิภาพ 85% + 10 นาทีเตรียมชาร์จต่อจุด)
+    </p>
+  </aside>
+
+  <!-- CENTER PANEL: Interactive Thailand GIS Map -->
+  <section class="stage">
+    <div class="map-top-overlay">
+      <div class="layer-pills" role="toolbar" aria-label="ตัวเลือกชั้นข้อมูลแผนที่">
+        <button class="layer-btn active" id="toggleCells">เขตจังหวัด</button>
+        <button class="layer-btn active" id="toggleRoads">โครงข่ายทางหลวง</button>
+        <button class="layer-btn active" id="toggleStations">สถานีชาร์จทั้งหมด</button>
+        <button class="layer-btn active" id="toggleLabels">ชื่อจังหวัด</button>
+      </div>
+      <div class="gis-coords-box" id="gisReadout">LAT 13.75° N · LON 100.50° E · กรุงเทพมหานคร</div>
+
+      <!-- Mobile Compact Floating Route Strip -->
+      <div class="mobile-route-pill" id="mobileRoutePill">
+        <div class="mrp-route" id="mrpEditBtn" role="button" tabindex="0" aria-label="แก้ไขต้นทางและปลายทาง">
+          <div class="mrp-title" id="mrpTitle">กรุงเทพมหานคร ➔ เชียงใหม่</div>
+          <div class="mrp-sub" id="mrpSub">กำลังคำนวณเส้นทาง...</div>
+        </div>
+        <button class="mrp-btn" id="mrpReportBtn">ดูรายงาน ›</button>
+      </div>
+    </div>
+
+    <svg id="map" viewBox="0 0 600 1080" preserveAspectRatio="xMidYMid meet" role="img" aria-label="แผนที่โครงข่ายสถานีชาร์จยานยนต์ไฟฟ้าทั่วประเทศไทย 77 จังหวัด"></svg>
+
+    <div class="zoom-controls">
+      <button id="zin" aria-label="ซูมเข้า" title="ซูมเข้า">+</button>
+      <button id="zout" aria-label="ซูมออก" title="ซูมออก">−</button>
+      <button id="zreset" aria-label="รีเซ็ตมุมมอง" title="แสดงทั้งประเทศ">⌂</button>
+      <button id="btnMobileLegend" aria-label="แสดงคำอธิบายสัญลักษณ์" title="คำอธิบายสัญลักษณ์">ℹ</button>
+    </div>
+
+    <!-- Province Click Inspector Popup -->
+    <div class="map-popup" id="mapPopup">
+      <div class="popup-head">
+        <div class="popup-title" id="popTitle">จ.กรุงเทพมหานคร</div>
+        <button class="popup-close" id="popClose" aria-label="ปิด">✕</button>
+      </div>
+      <div class="popup-meta" id="popMeta">พิกัด: 13.75°N, 100.50°E · สถานีชาร์จ: 4 แห่ง</div>
+      <div class="popup-actions">
+        <button class="popup-btn primary" id="popSetOrigin">ตั้งเป็นต้นทาง</button>
+        <button class="popup-btn amber" id="popSetVia">แวะผ่าน W</button>
+        <button class="popup-btn" id="popSetDest">ตั้งเป็นปลายทาง</button>
+      </div>
+    </div>
+
+    <!-- Bottom Legend & Navigation Playback Bar -->
+    <div class="sim-bar">
+      <div class="map-legend" id="mapLegend">
+        <span><i class="legend-dot" style="background:var(--primary-cyan);border:2px solid #fff;box-shadow:0 0 6px var(--primary-cyan)"></i>ศูนย์กลางจังหวัด (77)</span>
+        <span><i class="legend-dot" style="background:var(--accent-amber);box-shadow:0 0 6px var(--accent-amber)"></i>สถานีชาร์จ DC (<span id="legendNs">109</span>)</span>
+        <span><i class="legend-dot" style="background:var(--map-route)"></i>เส้นทางนำทางแนะนำ</span>
+      </div>
+
+      <div class="sim-controller">
+        <button class="sim-btn" id="simToggle">⏸ หยุดชั่วคราว</button>
+        <button class="sim-btn" id="simReplay">↻ เริ่มจำลองใหม่</button>
+        <button class="sim-btn sim-speed-btn" id="simSpeed" title="เปลี่ยนความเร็วจำลอง">1x</button>
+        <div class="sim-scrub-wrap">
+          <input type="range" id="simScrub" class="sim-scrub" min="0" max="1000" value="0" aria-label="เลื่อนตำแหน่งจำลองการเดินทาง">
+        </div>
+        <span class="sim-status" id="simStatus">พร้อมนำทาง</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- RIGHT PANEL: Trip Report, Telemetry & Charging Schedule -->
+  <aside class="panel panel-right">
+    <div class="panel-section">
+      <div class="section-header">
+        <div class="section-title"><span class="step-num">4</span> รายงานวิเคราะห์เส้นทาง (Trip Telemetry)</div>
+        <span class="badge-tag" id="routeStatusBadge">พร้อมคำนวณ</span>
+      </div>
+
+      <div class="report-actions" id="reportActions">
+        <button type="button" class="report-btn" id="btnShare" title="คัดลอกลิงก์เส้นทาง">🔗 แชร์ลิงก์</button>
+        <button type="button" class="report-btn" id="btnCopyText" title="คัดลอกแผนเดินทาง">📋 คัดลอกแผน</button>
+        <button type="button" class="report-btn" id="btnExportCsv" title="ดาวน์โหลดตาราง CSV">📥 ส่งออก CSV</button>
+      </div>
+
+      <div id="out">
+        <p class="hint-box">เลือกจังหวัดต้นทางและปลายทางแล้วกดปุ่มคำนวณเส้นทาง ระบบจะวิเคราะห์เส้นทางที่สั้นและเร็วที่สุด พร้อมกำหนดจุดแวะชาร์จไม่ให้แบตเตอรี่ต่ำกว่าเกณฑ์สำรอง</p>
+      </div>
+    </div>
+  </aside>
+
+</main>
+
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+<!-- Mobile Sticky Bottom App Navigation -->
+<nav class="mobile-nav" aria-label="แถบนำทางหลักบนมือถือ">
+  <button class="mnav-btn" data-mtab="plan" id="mTabPlan">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="19" r="3"/><path d="M9 19h8.5a3.5 3.5 0 0 0 0-7h-11a3.5 3.5 0 0 1 0-7H15"/><circle cx="18" cy="5" r="3"/></svg>
+    <span>วางแผน</span>
+  </button>
+  <button class="mnav-btn active" data-mtab="map" id="mTabMap">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" y1="3" x2="9" y2="18"/><line x1="15" y1="6" x2="15" y2="21"/></svg>
+    <span>แผนที่โครงข่าย</span>
+  </button>
+  <button class="mnav-btn" data-mtab="report" id="mTabReport">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg>
+    <span>รายงาน</span>
+    <i class="mnav-badge" id="mReportBadge"></i>
+  </button>
+</nav>
+
+<script>
+const RAW=`กรุงเทพมหานคร|13.75|100.50
+สมุทรปราการ|13.60|100.60
+นนทบุรี|13.86|100.52
+ปทุมธานี|14.02|100.53
+พระนครศรีอยุธยา|14.35|100.57
+อ่างทอง|14.59|100.45
+ลพบุรี|14.80|100.65
+สิงห์บุรี|14.89|100.40
+ชัยนาท|15.19|100.13
+สระบุรี|14.53|100.91
+ชลบุรี|13.36|100.98
+ระยอง|12.68|101.28
+จันทบุรี|12.61|102.10
+ตราด|12.24|102.52
+ฉะเชิงเทรา|13.69|101.07
+ปราจีนบุรี|14.05|101.37
+นครนายก|14.21|101.21
+สระแก้ว|13.82|102.07
+นครราชสีมา|14.97|102.10
+บุรีรัมย์|14.99|103.10
+สุรินทร์|14.88|103.49
+ศรีสะเกษ|15.12|104.32
+อุบลราชธานี|15.24|104.86
+ยโสธร|15.79|104.15
+ชัยภูมิ|15.81|102.03
+อำนาจเจริญ|15.86|104.63
+บึงกาฬ|18.36|103.65
+หนองบัวลำภู|17.20|102.44
+ขอนแก่น|16.44|102.84
+อุดรธานี|17.41|102.79
+เลย|17.49|101.72
+หนองคาย|17.88|102.74
+มหาสารคาม|16.18|103.30
+ร้อยเอ็ด|16.05|103.65
+กาฬสินธุ์|16.43|103.51
+สกลนคร|17.16|104.15
+นครพนม|17.41|104.78
+มุกดาหาร|16.54|104.72
+เชียงใหม่|18.79|98.99
+ลำพูน|18.58|99.01
+ลำปาง|18.29|99.49
+อุตรดิตถ์|17.62|100.10
+แพร่|18.15|100.14
+น่าน|18.78|100.78
+พะเยา|19.17|99.90
+เชียงราย|19.91|99.83
+แม่ฮ่องสอน|19.30|97.97
+นครสวรรค์|15.70|100.14
+อุทัยธานี|15.38|100.02
+กำแพงเพชร|16.48|99.52
+ตาก|16.88|99.13
+สุโขทัย|17.01|99.82
+พิษณุโลก|16.82|100.26
+พิจิตร|16.44|100.35
+เพชรบูรณ์|16.42|101.16
+สุพรรณบุรี|14.47|100.12
+นครปฐม|13.82|100.04
+สมุทรสาคร|13.55|100.28
+สมุทรสงคราม|13.41|100.00
+ราชบุรี|13.54|99.82
+กาญจนบุรี|14.02|99.53
+เพชรบุรี|13.11|99.94
+ประจวบคีรีขันธ์|11.81|99.80
+นครศรีธรรมราช|8.43|99.96
+กระบี่|8.09|98.91
+พังงา|8.45|98.53
+ภูเก็ต|7.89|98.39
+สุราษฎร์ธานี|9.14|99.33
+ระนอง|9.96|98.64
+ชุมพร|10.49|99.18
+สงขลา|7.19|100.60
+สตูล|6.62|100.07
+ตรัง|7.56|99.61
+พัทลุง|7.62|100.08
+ปัตตานี|6.87|101.25
+ยะลา|6.54|101.28
+นราธิวาส|6.43|101.82`;
+
+const OUT=[[99.90,20.45],[100.10,20.35],[100.40,20.25],[100.60,19.90],[100.90,19.55],[101.15,19.10],[101.20,18.50],[101.05,18.10],[101.15,17.80],[101.60,17.85],[102.10,18.10],[102.75,17.88],[103.30,18.30],[103.90,18.30],[104.40,17.95],[104.80,17.40],[104.75,16.55],[105.15,16.05],[105.60,15.65],[105.55,15.15],[105.30,14.45],[104.90,14.30],[104.40,14.45],[103.90,14.35],[103.30,14.35],[102.90,14.25],[102.55,14.15],[102.45,13.60],[102.30,13.20],[102.35,12.70],[102.93,11.65],[102.50,12.05],[102.05,12.55],[101.60,12.60],[101.25,12.65],[100.90,12.85],[100.90,13.30],[100.65,13.50],[100.40,13.50],[100.25,13.45],[100.00,13.30],[100.10,13.05],[99.97,12.75],[99.95,12.45],[99.85,12.00],[99.70,11.65],[99.50,11.20],[99.30,10.55],[99.15,10.10],[99.30,9.50],[99.40,9.15],[99.80,8.95],[100.10,8.40],[100.35,7.90],[100.60,7.25],[101.05,6.90],[101.45,6.85],[101.85,6.45],[101.95,6.25],[101.60,6.20],[101.20,5.95],[101.05,5.75],[100.70,6.15],[100.35,6.45],[100.10,6.50],[99.85,6.60],[99.70,7.05],[99.45,7.35],[99.25,7.70],[98.80,8.20],[98.40,8.05],[98.30,8.60],[98.45,9.10],[98.60,9.75],[98.65,10.45],[98.55,10.90],[99.00,11.30],[99.15,11.75],[99.35,12.20],[99.55,12.80],[99.30,13.40],[99.15,13.80],[98.95,14.10],[98.55,14.60],[98.45,15.30],[98.60,15.90],[98.55,16.40],[98.20,16.95],[97.80,17.60],[97.75,18.20],[97.55,18.60],[97.55,19.00],[97.85,19.45],[98.10,19.80],[98.55,19.75],[99.15,20.10],[99.55,20.15]];
+const K=0.974,S=70;
+const seeds=RAW.split('\n').map(l=>{const [name,la,lo]=l.split('|');return{name,la:+la,lo:+lo}});
+const hav=(a,b)=>{const R=6371,r=Math.PI/180,dla=(b.la-a.la)*r,dlo=(b.lo-a.lo)*r;const h=Math.sin(dla/2)**2+Math.cos(a.la*r)*Math.cos(b.la*r)*Math.sin(dlo/2)**2;return 2*R*Math.asin(Math.sqrt(h))};
+const sx=lo=>10+(lo-97.3)*S*K, sy=la=>10+(20.6-la)*S;
+
+// --- Voronoi Province Cells ---
+function clip(poly,lab,nx,ny,c,id){const o=[],L=[];
+ for(let i=0;i<poly.length;i++){const P=poly[i],Q=poly[(i+1)%poly.length],fp=nx*P[0]+ny*P[1]-c,fq=nx*Q[0]+ny*Q[1]-c,inP=fp<=0,inQ=fq<=0;
+  if(inP){o.push(P);L.push(inQ?lab[i]:lab[i]);}
+  if(inP!==inQ){const t=fp/(fp-fq),I=[P[0]+(Q[0]-P[0])*t,P[1]+(Q[1]-P[1])*t];o.push(I);L.push(inP?id:lab[i]);}}
+ return[o,L]}
+const outS=OUT.map(([lo,la])=>[lo*K,la]);
+const inside=(x,y)=>{let r=false;for(let i=0,j=outS.length-1;i<outS.length;j=i++){const[a,b]=outS[i],[c,d]=outS[j];if((b>y)!==(d>y)&&x<(c-a)*(y-b)/(d-b)+a)r=!r}return r};
+const cellD=[],pairs=new Set();
+seeds.forEach((s,i)=>{let poly=[[96*K,5],[107*K,5],[107*K,21.5],[96*K,21.5]],lab=[-1,-1,-1,-1];
+ const px=s.lo*K,py=s.la;
+ seeds.forEach((o,j)=>{if(j==i)return;const ox=o.lo*K,oy=o.la,nx=ox-px,ny=oy-py,c=nx*(px+ox)/2+ny*(py+oy)/2;[poly,lab]=clip(poly,lab,nx,ny,c,j)});
+ cellD.push('M'+poly.map(p=>sx(p[0]/K).toFixed(1)+' '+sy(p[1]).toFixed(1)).join('L')+'Z');
+ poly.forEach((p,k)=>{const q=poly[(k+1)%poly.length];if(lab[k]>=0&&inside((p[0]+q[0])/2,(p[1]+q[1])/2))pairs.add(Math.min(i,lab[k])+'-'+Math.max(i,lab[k]))});
+});
+const outD='M'+OUT.map(([lo,la])=>sx(lo).toFixed(1)+' '+sy(la).toFixed(1)).join('L')+'Z';
+
+// --- Graph Construction: 77 Provinces + 246 Charging Stations ---
+let links=[...pairs].map(s=>s.split('-').map(Number)).filter(([a,b])=>hav(seeds[a],seeds[b])<=260);
+const uf=seeds.map((_,i)=>i),find=x=>uf[x]==x?x:(uf[x]=find(uf[x]));
+links.forEach(([a,b])=>uf[find(a)]=find(b));
+for(;;){let best=null,bd=1e9;for(let i=0;i<seeds.length;i++)for(let j=i+1;j<seeds.length;j++)if(find(i)!=find(j)){const d=hav(seeds[i],seeds[j]);if(d<bd){bd=d;best=[i,j]}}
+ if(!best)break;links.push(best);uf[find(best[0])]=find(best[1])}
+const N=seeds.map((s,i)=>({name:s.name,la:s.la,lo:s.lo,t:'c',p:i})),E=[],cnt={};
+const near=(la,lo)=>{let b=0,bd=1e9;seeds.forEach((s,i)=>{const d=((lo-s.lo)*K)**2+(la-s.la)**2;if(d<bd){bd=d;b=i}});return b};
+links.forEach(([a,b])=>{const A=seeds[a],B=seeds[b],D=hav(A,B)*1.25,k=Math.max(0,Math.ceil(D/90)-1);let prev=a;
+ for(let i=1;i<=k+1;i++){let cur=b;
+  if(i<=k){const la=A.la+(B.la-A.la)*i/(k+1),lo=A.lo+(B.lo-A.lo)*i/(k+1),p=near(la,lo);cnt[p]=(cnt[p]||0)+1;N.push({name:'สถานีชาร์จ '+seeds[p].name+' #'+cnt[p],la,lo,t:'s',p});cur=N.length-1}
+  E.push({a:prev,b:cur,d:Math.max(1,Math.round(hav(N[prev],N[cur])*1.25))});prev=cur}});
+const adj=N.map(()=>[]);E.forEach(e=>{adj[e.a].push([e.b,e.d]);adj[e.b].push([e.a,e.d])});
+
+// --- Multi-Stage Battery-Aware State-Space Dijkstra ---
+function hpush(h,c,v){h.push([c,v]);let i=h.length-1;while(i>0){const p=(i-1)>>1;if(h[p][0]<=h[i][0])break;[h[p],h[i]]=[h[i],h[p]];i=p}}
+function hpop(h){const t=h[0],l=h.pop();if(h.length){h[0]=l;let i=0;for(;;){const a=2*i+1,b=a+1;let m=i;if(a<h.length&&h[a][0]<h[m][0])m=a;if(b<h.length&&h[b][0]<h[m][0])m=b;if(m==i)break;[h[m],h[i]]=[h[i],h[m]];i=m}}return t}
+
+function plan(s,t,cap,soc,res,speed=90,via=-1,strategy='fastest',kw=120,kwhBattery=60){
+ const t0=performance.now();
+ const U=10,L=Math.floor(cap/U),r0=Math.min(L,Math.floor(cap*soc/100/U)),rs=Math.ceil(cap*res/100/U),W=L+1;
+ const useVia=(via>=0&&via<N.length&&via!==s&&via!==t)?via:-1;
+ const stages=useVia>=0?2:1,stageSize=N.length*W,T=stages*stageSize;
+ const D=new Float64Array(T).fill(Infinity),M=new Float64Array(T).fill(Infinity),P=new Int32Array(T).fill(-1),A=new Array(T),h=[];
+ const effKw=Math.max(10,kw*0.85),kwhPerStep=(U/cap)*kwhBattery,minsPerStep=(kwhPerStep/effKw)*60;
+ const chargePenalty=strategy==='fewest'?90:0;
+ const rBuf=strategy==='safe'?Math.min(L,Math.ceil(cap*(res+5)/100/U)):rs;
+ const u0=s*W+r0;
+ D[u0]=0;M[u0]=0;hpush(h,0,u0);
+ let statesExplored=0;
+ while(h.length){
+  const [c,u]=hpop(h);if(c>D[u])continue;
+  statesExplored++;
+  const stg=(u/stageSize)|0,rem=u%stageSize,n=(rem/W)|0,r=rem%W;
+  if(n===t&&stg===(useVia>=0?1:0)){
+   return rebuild(u,D,M,P,A,W,stageSize,cap,speed,useVia,strategy,kw,statesExplored,performance.now()-t0);
+  }
+  for(const [m,d] of adj[n]){
+   const nr=r-Math.ceil(d/U);if(nr<rs)continue;
+   const nStg=(useVia>=0&&m===useVia)?1:stg;
+   const v=nStg*stageSize+m*W+nr,dt=d/speed*60;
+   const safePen=(strategy==='safe'&&nr<rBuf)?(rBuf-nr)*18:0;
+   const nc=c+dt+safePen;
+   if(nc<D[v]){D[v]=nc;M[v]=M[u]+dt;P[v]=u;A[v]=['d',d];hpush(h,nc,v)}
+  }
+  for(let r2=r+1;r2<=L;r2++){
+   const v=stg*stageSize+n*W+r2,cTime=10+(r2-r)*minsPerStep,nc=c+cTime+chargePenalty;
+   if(nc<D[v]){D[v]=nc;M[v]=M[u]+cTime;P[v]=u;A[v]=['c',0];hpush(h,nc,v)}
+  }
+ }
+ return null;
+}
+
+function rebuild(u,D,M,P,A,W,stageSize,cap,speed,useVia,strategy,kw,statesExplored,execMs){
+ const seq=[];for(let x=u;x>=0;x=P[x])seq.push(x);seq.reverse();
+ const dec=st=>{const stg=(st/stageSize)|0,rem=st%stageSize;return[(rem/W)|0,rem%W,stg]};
+ const pc=r=>Math.round(r*10/cap*100);
+ const [s0,rStart]=dec(seq[0]);
+ const path=[s0],provs=[N[s0].p],steps=[{k:'start',nodeIdx:s0,name:N[s0].name,km:0,totalKm:0,soc:pc(rStart),etaMin:0}];
+ const profile=[{km:0,soc:pc(rStart),label:N[s0].name,min:0}];
+ let km=0,stops=0,seg=0,lastC=false,viaLogged=false,chargeMinsRaw=0;
+ for(let i=1;i<seq.length;i++){
+  const a=seq[i-1],b=seq[i],[n,rb,stgB]=dec(b),[,ra]=dec(a);
+  if(A[b][0]==='d'){
+   const d=A[b][1];km+=d;seg+=d;path.push(n);lastC=false;
+   const socB=pc(rb),isViaNode=(useVia>=0&&n===useVia&&!viaLogged&&stgB===1);
+   profile.push({km,soc:socB,label:N[n].name,min:Math.round(M[b]),isVia:isViaNode});
+   if(provs[provs.length-1]!==N[n].p&&(useVia>=0||!provs.includes(N[n].p)))provs.push(N[n].p);
+   if(isViaNode){viaLogged=true;steps.push({k:'via',nodeIdx:n,name:N[n].name,km:seg,totalKm:km,soc:socB,etaMin:Math.round(M[b])});seg=0;}
+  }else if(lastC){
+   const prevSt=steps[steps.length-1],dtC=M[b]-M[a];
+   prevSt.to=pc(rb);prevSt.cMinRaw+=dtC;prevSt.depMin=Math.round(M[b]);chargeMinsRaw+=dtC;
+   profile[profile.length-1].soc=pc(rb);profile[profile.length-1].min=Math.round(M[b]);
+  }else{
+   stops++;lastC=true;
+   const fromSoc=pc(ra),toSoc=pc(rb),dtC=M[b]-M[a];
+   chargeMinsRaw+=dtC;
+   steps.push({k:'charge',stopNum:stops,nodeIdx:n,name:N[n].name,prov:seeds[N[n].p].name,km:seg,totalKm:km,from:fromSoc,to:toSoc,arrMin:Math.round(M[a]),depMin:Math.round(M[b]),cMinRaw:dtC});
+   profile.push({km,soc:toSoc,label:N[n].name,isCharge:true,min:Math.round(M[b])});
+   seg=0;
+  }
+ }
+ steps.forEach(st=>{if(st.k==='charge')st.cMin=Math.round(st.cMinRaw);});
+ const [e,rEnd]=dec(seq[seq.length-1]);
+ steps.push({k:'end',nodeIdx:e,name:N[e].name,km:seg,totalKm:km,soc:pc(rEnd),etaMin:Math.round(M[u])});
+ const totalMin=Math.round(M[u]),driveMins=Math.round(km/speed*60),chargeMins=Math.max(0,totalMin-driveMins);
+ return{path,provs,steps,profile,km,stops,min:totalMin,driveMins,chargeMins,statesExplored,execMs:Math.round(execMs*10)/10,via:useVia,strategy,kw};
+}
+
+/* --- DOM & Interactive Logic --- */
+const $=id=>document.getElementById(id);
+const regOf=i=>(i>=10&&i<=17)?'east':(i>=18&&i<=37)?'northeast':((i>=38&&i<=46)||i===50)?'north':(i>=63)?'south':'central';
+let activeStrategy='fastest',activeRegion='all',simSpeedMult=1,toastTimer=0;
+function showToast(msg){
+  const t=$('toast');if(!t)return;
+  t.textContent=msg;t.classList.add('show');
+  clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('show'),2600);
+}
+function parseDepMinutes(){
+  const val=($('depTime')?.value||'08:00').split(':');
+  return (+val[0]||0)*60+(+val[1]||0);
+}
+function fmtClock(offsetMin,depBase=parseDepMinutes()){
+  const tot=Math.max(0,Math.round(depBase+offsetMin));
+  const d=Math.floor(tot/1440),hm=tot%1440,hh=String(Math.floor(hm/60)).padStart(2,'0'),mm=String(hm%60).padStart(2,'0');
+  return `${hh}:${mm} น.${d>0?` (+${d} วัน)`:''}`;
+}
+
+$('nv').textContent=N.length;$('ne').textContent=E.length;$('ns').textContent=N.filter(n=>n.t=='s').length;$('legendNs').textContent=$('ns').textContent;
+const provOpts=seeds.map((s,i)=>`<option value="${i}">${s.name}</option>`).join('');
+$('from').innerHTML=provOpts;$('to').innerHTML=provOpts;
+$('via').innerHTML='<option value="-1">— ไม่แวะผ่าน (เส้นทางตรง) —</option>'+provOpts;
+$('from').value=0;$('to').value=38;$('via').value='-1';
+
+function updateSocMeter(){
+  const v=+$('soc').value;
+  $('socv').textContent=v;
+  $('bar').style.width=v+'%';
+  $('bar').style.background=v<35?'linear-gradient(90deg, #e11d48, #f43f5e)':v<60?'linear-gradient(90deg, #d97706, #fbbf24)':'linear-gradient(90deg, #059669, #10b981, #34d399)';
+}
+$('soc').oninput=updateSocMeter;
+updateSocMeter();
+
+document.querySelectorAll('.chip').forEach(c=>c.onclick=()=>{
+  document.querySelectorAll('.chip').forEach(x=>x.setAttribute('aria-pressed',x==c));
+  const v=parseInt(c.dataset.cap||c.textContent);
+  $('cap').value=v;
+  $('capLabel').textContent=v;
+  runPlan();
+});
+
+document.querySelectorAll('#strategyBar .strategy-btn').forEach(btn=>{
+  btn.onclick=()=>{
+    activeStrategy=btn.dataset.strategy||'fastest';
+    document.querySelectorAll('#strategyBar .strategy-btn').forEach(b=>b.classList.toggle('active',b===btn));
+    runPlan();
+  };
+});
+
+document.querySelectorAll('#regionFilter .region-pill').forEach(pill=>{
+  pill.onclick=()=>{
+    activeRegion=pill.dataset.reg||'all';
+    document.querySelectorAll('#regionFilter .region-pill').forEach(p=>p.classList.toggle('active',p===pill));
+    renderDirectory($('provSearch').value);
+  };
+});
+
+$('resSelect').onchange=()=>{$('res').value=$('resSelect').value;runPlan();};
+$('speedSelect').onchange=()=>runPlan();
+$('kwhCap').onchange=()=>runPlan();
+$('chargerKw').onchange=()=>runPlan();
+$('depTime').onchange=()=>runPlan();
+$('tariffInput').oninput=()=>runPlan();
+$('via').onchange=()=>runPlan();
+
+$('swap').onclick=()=>{const a=$('from').value;$('from').value=$('to').value;$('to').value=a;runPlan();};
+
+document.querySelectorAll('.corridor-btn').forEach(btn=>{
+  btn.onclick=()=>{
+    $('from').value=btn.dataset.from;
+    $('to').value=btn.dataset.to;
+    $('via').value='-1';
+    runPlan();
+  };
+});
+
+// Official GPS Navigation Beacon (No Car Model)
+const NAV_MARKER=`<circle r="11" fill="rgba(56,189,248,0.28)"/><circle r="6" fill="#0284c7" stroke="#ffffff" stroke-width="2"/><polygon points="3.5,0 -2.4,-2.6 -1.1,0 -2.4,2.6" fill="#ffffff"/>`;
+
+const svg=$('map'),calm=matchMedia('(prefers-reduced-motion: reduce)').matches;
+let raf=0,pend=0,cn=[],sn=[],lbs=[],pins=[],vb={x:0,y:0,w:600,h:1080};
+let showCells=true,showRoads=true,showStations=true,showLabels=true;
+let simPaused=false,simProgress=0,simLastTs=0,simDuration=4000,currentRouteResult=null,simApplyFn=null,simResumeFn=null;
+
+const rect=()=>svg.getBoundingClientRect();
+const asp=()=>{const r=rect();return r.width?r.height/r.width:1.8};
+const fitW=()=>Math.max(600,1080/asp());
+
+function clampVB(){const a=asp(),f=fitW();vb.w=Math.max(40,Math.min(f,vb.w));vb.h=vb.w*a;
+ let cx=vb.x+vb.w/2,cy=vb.y+vb.h/2;cx=Math.max(0,Math.min(600,cx));cy=Math.max(0,Math.min(1080,cy));
+ if(vb.w>=f-.5){cx=300;cy=540}vb.x=cx-vb.w/2;vb.y=cy-vb.h/2}
+
+function apply(){clampVB();svg.setAttribute('viewBox',`${vb.x.toFixed(2)} ${vb.y.toFixed(2)} ${vb.w.toFixed(2)} ${vb.h.toFixed(2)}`);
+ if(!pend){pend=1;requestAnimationFrame(()=>{pend=0;layout()})}}
+
+function zoomAt(f,mx,my){const r=rect(),k=r.width/vb.w,px=vb.x+mx/k,py=vb.y+my/k;
+ vb.w=Math.max(40,Math.min(fitW(),vb.w/f));vb.h=vb.w*asp();const k2=r.width/vb.w;vb.x=px-mx/k2;vb.y=py-my/k2;apply()}
+const mid=f=>{const r=rect();zoomAt(f,r.width/2,r.height/2)};
+
+$('zin').onclick=()=>mid(1.6);
+$('zout').onclick=()=>mid(1/1.6);
+$('zreset').onclick=()=>{vb.w=fitW();apply()};
+
+svg.addEventListener('wheel',e=>{e.preventDefault();const r=rect();zoomAt(Math.exp(-e.deltaY*(e.ctrlKey?.01:.0018)),e.clientX-r.left,e.clientY-r.top)},{passive:false});
+
+const pts=new Map();let downPos=null;
+svg.addEventListener('pointerdown',e=>{
+  svg.setPointerCapture(e.pointerId);
+  pts.set(e.pointerId,[e.clientX,e.clientY]);
+  downPos=[e.clientX,e.clientY];
+  svg.classList.add('grab');
+});
+svg.addEventListener('pointermove',e=>{
+  const r=rect();
+  if(r.width>0){
+    const k=r.width/vb.w;
+    const svgX=vb.x+(e.clientX-r.left)/k, svgY=vb.y+(e.clientY-r.top)/k;
+    const lo=97.3+(svgX-10)/(S*K), la=20.6-(svgY-10)/S;
+    if(la>=5 && la<=21 && lo>=97 && lo<=106){
+      const pIdx=near(la,lo);
+      $('gisReadout').textContent=`LAT ${la.toFixed(2)}° N · LON ${lo.toFixed(2)}° E · จ.${seeds[pIdx].name}`;
+    }
+  }
+  if(!pts.has(e.pointerId))return;
+  const o=pts.get(e.pointerId);
+  if(pts.size==1){const k=r.width/vb.w;vb.x-=(e.clientX-o[0])/k;vb.y-=(e.clientY-o[1])/k;pts.set(e.pointerId,[e.clientX,e.clientY]);apply()}
+  else{const q=[...pts.entries()].find(([id])=>id!=e.pointerId)[1],d0=Math.hypot(o[0]-q[0],o[1]-q[1]);pts.set(e.pointerId,[e.clientX,e.clientY]);
+   const d1=Math.hypot(e.clientX-q[0],e.clientY-q[1]);if(d0>0)zoomAt(d1/d0,(e.clientX+q[0])/2-r.left,(e.clientY+q[1])/2-r.top)}
+});
+['pointerup','pointercancel'].forEach(t=>svg.addEventListener(t,e=>{
+  if(t==='pointerup' && downPos && Math.hypot(e.clientX-downPos[0],e.clientY-downPos[1])<6){
+    const target=document.elementFromPoint(e.clientX,e.clientY);
+    if(target && target.classList.contains('sn') && target.dataset.node!==undefined){
+      openStationPopup(+target.dataset.node);
+    }else if(target && target.classList.contains('cell') && target.dataset.prov!==undefined){
+      openProvincePopup(+target.dataset.prov);
+    }
+  }
+  pts.delete(e.pointerId);
+  if(!pts.size)svg.classList.remove('grab');
+}));
+addEventListener('resize',()=>{
+  apply();
+  if(currentRouteResult && (!isMobile() || document.body.getAttribute('data-mobile-tab')==='report')){
+    renderSocChart(currentRouteResult.profile,+$('res').value);
+  }
+});
+
+// Mobile Navigation & Responsive State Management
+const isMobile=()=>window.innerWidth<=980;
+let pendingFitOnMapTab=false;
+
+function switchMobileTab(tab){
+  document.body.setAttribute('data-mobile-tab',tab);
+  document.querySelectorAll('.mnav-btn').forEach(b=>b.classList.toggle('active',b.dataset.mtab===tab));
+  if(tab==='map'){
+    requestAnimationFrame(()=>{
+      apply();
+      if(pendingFitOnMapTab && currentRouteResult){
+        fit(currentRouteResult.path);
+        pendingFitOnMapTab=false;
+      }
+    });
+  }else if(tab==='report'){
+    requestAnimationFrame(()=>{
+      if(currentRouteResult)renderSocChart(currentRouteResult.profile,+$('res').value);
+    });
+  }
+}
+
+document.querySelectorAll('.mnav-btn').forEach(btn=>{
+  btn.onclick=()=>switchMobileTab(btn.dataset.mtab);
+});
+$('mrpEditBtn').onclick=()=>switchMobileTab('plan');
+$('mrpReportBtn').onclick=()=>switchMobileTab('report');
+$('btnMobileLegend').onclick=()=>{
+  $('mapPopup').classList.remove('show');
+  $('mapLegend').classList.toggle('mobile-open');
+};
+
+// Province & Station Popup Inspector
+let selectedPopupProv=0;
+function openProvincePopup(pIdx){
+  $('mapLegend').classList.remove('mobile-open');
+  selectedPopupProv=pIdx;
+  const s=seeds[pIdx];
+  const stCount=cnt[pIdx]||0;
+  $('popTitle').textContent='จังหวัด'+s.name;
+  $('popMeta').textContent=`พิกัด: ${s.la.toFixed(2)}°N, ${s.lo.toFixed(2)}°E · สถานีชาร์จในพื้นที่: ${stCount} แห่ง`;
+  $('mapPopup').classList.add('show');
+}
+function openStationPopup(nodeIdx){
+  const n=N[nodeIdx];
+  if(!n)return;
+  $('mapLegend').classList.remove('mobile-open');
+  selectedPopupProv=n.p;
+  $('popTitle').textContent='⚡ '+n.name;
+  $('popMeta').textContent=`พื้นที่ จ.${seeds[n.p].name} · พิกัด: ${n.la.toFixed(2)}°N, ${n.lo.toFixed(2)}°E`;
+  $('mapPopup').classList.add('show');
+}
+$('popClose').onclick=()=>$('mapPopup').classList.remove('show');
+$('popSetOrigin').onclick=()=>{$('from').value=selectedPopupProv;$('mapPopup').classList.remove('show');runPlan();};
+$('popSetVia').onclick=()=>{$('via').value=selectedPopupProv;$('mapPopup').classList.remove('show');runPlan();};
+$('popSetDest').onclick=()=>{$('to').value=selectedPopupProv;$('mapPopup').classList.remove('show');runPlan();};
+
+// Layer Toggles
+function bindLayerToggle(btnId,getter,setter){
+  $(btnId).onclick=()=>{
+    setter(!getter());
+    $(btnId).classList.toggle('active',getter());
+    layout();
+  };
+}
+bindLayerToggle('toggleCells',()=>showCells,v=>{showCells=v;svg.querySelectorAll('.cell').forEach(el=>el.style.opacity=v?'1':'0.15');});
+bindLayerToggle('toggleRoads',()=>showRoads,v=>{showRoads=v;svg.querySelectorAll('.rd').forEach(el=>el.style.display=v?'':'none');});
+bindLayerToggle('toggleStations',()=>showStations,v=>{showStations=v;});
+bindLayerToggle('toggleLabels',()=>showLabels,v=>{showLabels=v;});
+
+function layout(){
+ const rw=rect().width;
+ if(!rw)return;
+ const k=rw/vb.w,z=fitW()/vb.w;
+ cn.forEach(c=>{c.setAttribute('r',(c.dataset.h?5.5:3.3)/k);c.setAttribute('stroke-width',1.6/k)});
+ sn.forEach(c=>{const h=c.dataset.h;c.style.display=(showStations&&(h||z>=1.4))?'':'none';c.setAttribute('r',(h?4.8:2.5)/k);c.setAttribute('stroke-width',1.4/k)});
+ const cs=$('cs');if(cs)cs.setAttribute('transform',`scale(${(1.2/k).toFixed(3)})`);
+ const fr=$('focusRing');if(fr)fr.setAttribute('r',(11/k).toFixed(2));
+ pins.forEach(g=>g.setAttribute('transform',`translate(${g.dataset.x},${g.dataset.y}) scale(${(1.05/k).toFixed(3)})`));
+ const fs=10.5/k,pad=3/k,placed=[],x0=vb.x-20,x1=vb.x+vb.w+20,y0=vb.y-20,y1=vb.y+vb.h+20;
+ [...lbs].sort((a,b)=>(b.dataset.h?1:0)-(a.dataset.h?1:0)).forEach(t=>{
+  if(!showLabels){t.style.display='none';return;}
+  const h=!!t.dataset.h,f=h?fs*1.15:fs,x=+t.dataset.x+6/k,y=+t.dataset.y+3/k,w=t.dataset.n.length*f*.55,b=[x-pad,y-f-pad,x+w+pad,y+f*.3+pad];
+  let ok=x>x0&&x<x1&&y>y0&&y<y1;
+  if(ok&&!h)for(const p of placed)if(b[0]<p[2]&&b[2]>p[0]&&b[1]<p[3]&&b[3]>p[1]){ok=false;break}
+  t.style.display=ok?'':'none';
+  if(ok){placed.push(b);t.setAttribute('x',x);t.setAttribute('y',y);t.setAttribute('font-size',f);t.setAttribute('stroke-width',3/k)}});
+}
+
+function draw(path,provs,routeData=null){
+ cancelAnimationFrame(raf);simApplyFn=null;simResumeFn=null;
+ const on=new Set(),pn=new Set(path),hp=new Set(provs||[]);
+ for(let i=0;i<path.length-1;i++){on.add(path[i]+'-'+path[i+1]);on.add(path[i+1]+'-'+path[i])}
+ let s=`<defs>
+   <clipPath id="th"><path d="${outD}"/></clipPath>
+   <linearGradient id="routeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+     <stop offset="0%" stop-color="#38bdf8"/>
+     <stop offset="50%" stop-color="#3b82f6"/>
+     <stop offset="100%" stop-color="#10b981"/>
+   </linearGradient>
+ </defs><g clip-path="url(#th)">`;
+ cellD.forEach((d,i)=>s+=`<path class="cell${hp.has(i)?' hit':''}" data-prov="${i}" style="opacity:${showCells?1:0.15}" d="${d}"><title>จ.${seeds[i].name} (คลิกเพื่อเลือก)</title></path>`);
+ s+=`</g><path class="out" d="${outD}"/>`;
+ E.forEach(e=>{if(on.has(e.a+'-'+e.b))return;const A=N[e.a],B=N[e.b];s+=`<line class="rd" style="display:${showRoads?'':'none'}" x1="${sx(A.lo).toFixed(1)}" y1="${sy(A.la).toFixed(1)}" x2="${sx(B.lo).toFixed(1)}" y2="${sy(B.la).toFixed(1)}"/>`});
+ let d='';
+ if(path.length>1){d=path.map((i,k)=>(k?'L':'M')+sx(N[i].lo).toFixed(1)+' '+sy(N[i].la).toFixed(1)).join('');
+  s+=`<path id="rt-glow" d="${d}"/><path id="rt" d="${d}"/><path class="dash" d="${d}"/>`}
+ N.forEach((n,i)=>{const x=sx(n.lo).toFixed(1),y=sy(n.la).toFixed(1),h=pn.has(i)?' data-h="1"':'';
+  if(n.t=='c')s+=`<circle class="cn"${h} cx="${x}" cy="${y}" r="3"/><text class="lb"${h} data-n="${n.name}" data-x="${x}" data-y="${y}">${n.name}</text>`;
+  else s+=`<circle class="sn"${h} data-node="${i}" cx="${x}" cy="${y}" r="2"><title>${n.name} (จ.${seeds[n.p].name})</title></circle>`});
+ if(routeData&&routeData.steps){
+  routeData.steps.forEach(st=>{
+   if(st.k==='charge'){
+    const n=N[st.nodeIdx],px=sx(n.lo).toFixed(1),py=sy(n.la).toFixed(1);
+    s+=`<g class="map-pin stop-badge" data-x="${px}" data-y="${py}" transform="translate(${px},${py})"><circle cx="7.5" cy="-7.5" r="5.5"/><text x="7.5" y="-7.5">${st.stopNum}</text></g>`;
+   }
+  });
+ }
+ if(path.length>0){
+  const addPin=(nid,cls,lbl,dx=0)=>{const n=N[nid],px=sx(n.lo).toFixed(1),py=sy(n.la).toFixed(1);
+   s+=`<g class="map-pin pin-badge ${cls}" data-x="${px}" data-y="${py}" transform="translate(${px},${py})"><line x1="0" y1="0" x2="${dx}" y2="-6" stroke="#ffffff" stroke-width="1.4"/><circle cx="${dx}" cy="-13" r="7"/><text x="${dx}" y="-13">${lbl}</text></g>`;};
+  const sameEnd=path.length>1&&path[0]===path[path.length-1];
+  addPin(path[0],'pin-a','A',sameEnd?-7:0);
+  if(routeData&&routeData.via>=0)addPin(routeData.via,'pin-w','W',0);
+  if(path.length>1)addPin(path[path.length-1],'pin-b','B',sameEnd?7:0);
+ }
+ s+=`<circle id="focusRing" class="focus-beacon" cx="-200" cy="-200" r="10"/><g id="car" style="display:none"><g id="cs">${NAV_MARKER}</g></g>`;
+ svg.innerHTML=s;
+ cn=[...svg.querySelectorAll('.cn')];sn=[...svg.querySelectorAll('.sn')];lbs=[...svg.querySelectorAll('.lb')];pins=[...svg.querySelectorAll('.map-pin')];
+ layout();
+ startRouteAnimation();
+}
+
+function interpProfile(profile,targetKm,preferDeparture=true){
+  if(!profile||!profile.length)return{km:0,soc:0,label:'',min:0};
+  const maxKm=profile[profile.length-1].km;
+  const k=Math.max(0,Math.min(maxKm,targetKm));
+  if(k<=0)return{...profile[0]};
+  if(k>=maxKm){
+    for(let i=profile.length-1;i>=0;i--)if(profile[i].km===maxKm)return{...profile[i]};
+  }
+  for(let i=0;i<profile.length-1;i++){
+    const a=profile[i],b=profile[i+1];
+    if(b.km===a.km && Math.abs(a.km-k)<0.5 && preferDeparture)continue;
+    if(k>=a.km && k<=b.km){
+      if(b.km===a.km)return preferDeparture?{...b}:{...a};
+      const t=(k-a.km)/(b.km-a.km);
+      return{km:k,soc:a.soc+(b.soc-a.soc)*t,min:a.min+(b.min-a.min)*t,label:t<0.5?a.label:b.label};
+    }
+  }
+  return{...profile[profile.length-1]};
+}
+
+function startRouteAnimation(){
+ const rt=$('rt');if(!rt){$('simStatus').textContent='ไม่มีเส้นทาง';$('simScrub').value=0;return;}
+ const len=rt.getTotalLength(),car=$('car');
+ simDuration=calm?1:Math.min(9000,3000+len*2.6);
+ simProgress=0;
+ simPaused=false;
+ $('simToggle').textContent='⏸ หยุดชั่วคราว';
+ $('simScrub').value=0;
+ car.style.display='';
+ simLastTs=performance.now();
+
+ const placeAt=ratio=>{
+   const u=Math.max(0,Math.min(1,ratio)),l=u*len;
+   const a=rt.getPointAtLength(l),b=rt.getPointAtLength(Math.min(len,l+3)),c=rt.getPointAtLength(Math.max(0,l-3));
+   car.setAttribute('transform',`translate(${a.x},${a.y}) rotate(${Math.atan2(b.y-c.y,b.x-c.x)*180/Math.PI})`);
+   $('simScrub').value=Math.round(u*1000);
+   if(currentRouteResult){
+     const curKm=Math.round(u*currentRouteResult.km);
+     const st=interpProfile(currentRouteResult.profile,u*currentRouteResult.km,true);
+     $('simStatus').textContent=u>=1?`ถึงปลายทาง (${currentRouteResult.km} กม. · 🔋 ${Math.round(st.soc)}%)`:`${curKm} / ${currentRouteResult.km} กม. · 🔋 ${Math.round(st.soc)}%`;
+   }
+ };
+ simApplyFn=placeAt;
+
+ const step=ts=>{
+   if(!simPaused){
+     const dt=Math.min(100,Math.max(0,ts-simLastTs));
+     simProgress=Math.min(1,simProgress+(dt*simSpeedMult)/simDuration);
+     placeAt(simProgress);
+   }
+   simLastTs=ts;
+   if(simProgress<1){
+     raf=requestAnimationFrame(step);
+   }else{
+     raf=0;
+     $('simToggle').textContent='▶ เล่นซ้ำ';
+   }
+ };
+ simResumeFn=()=>{
+   cancelAnimationFrame(raf);
+   simLastTs=performance.now();
+   raf=requestAnimationFrame(step);
+ };
+ placeAt(0);
+ raf=requestAnimationFrame(step);
+}
+
+$('simToggle').onclick=()=>{
+  if(!currentRouteResult)return;
+  if(simProgress>=1){startRouteAnimation();return;}
+  simPaused=!simPaused;
+  $('simToggle').textContent=simPaused?'▶ ดำเนินการต่อ':'⏸ หยุดชั่วคราว';
+  if(!simPaused && simResumeFn)simResumeFn();
+};
+$('simReplay').onclick=()=>{if(currentRouteResult)startRouteAnimation();};
+$('simSpeed').onclick=()=>{
+  const sp=[1,3,8];
+  simSpeedMult=sp[(sp.indexOf(simSpeedMult)+1)%sp.length];
+  $('simSpeed').textContent=simSpeedMult+'x';
+};
+$('simScrub').oninput=()=>{
+  if(!currentRouteResult||!simApplyFn)return;
+  simPaused=true;
+  simProgress=Math.max(0,Math.min(1,+$('simScrub').value/1000));
+  simApplyFn(simProgress);
+  $('simToggle').textContent=simProgress>=1?'▶ เล่นซ้ำ':'▶ ดำเนินการต่อ';
+};
+
+function fit(path){
+ if(isMobile() && document.body.getAttribute('data-mobile-tab')!=='map'){pendingFitOnMapTab=true;return;}
+ const xs=path.map(i=>sx(N[i].lo)),ys=path.map(i=>sy(N[i].la)),a=asp();
+ const bw=Math.max(...xs)-Math.min(...xs),bh=Math.max(...ys)-Math.min(...ys);
+ vb.w=Math.max(bw*1.45,bh*1.45/a,110);vb.h=vb.w*a;
+ vb.x=(Math.min(...xs)+Math.max(...xs))/2-vb.w/2;vb.y=(Math.min(...ys)+Math.max(...ys))/2-vb.h/2;apply();
+}
+
+function focusNode(nodeIdx){
+  const n=N[nodeIdx];
+  if(!n)return;
+  const a=asp();
+  vb.w=140;vb.h=vb.w*a;
+  vb.x=sx(n.lo)-vb.w/2;
+  vb.y=sy(n.la)-vb.h/2;
+  apply();
+  const fr=$('focusRing');
+  if(fr){
+    fr.setAttribute('cx',sx(n.lo).toFixed(1));
+    fr.setAttribute('cy',sy(n.la).toFixed(1));
+    fr.classList.remove('active');
+    fr.getBoundingClientRect();
+    fr.classList.add('active');
+  }
+}
+
+// Render Interactive Battery SoC Profile Chart on Canvas
+function renderSocChart(profile,reserveSoc){
+  const canvas=$('socChart');
+  if(!canvas||!profile||profile.length<2)return;
+  if(isMobile() && !canvas.clientWidth)return;
+  const dpr=window.devicePixelRatio||1;
+  const cw=canvas.clientWidth||320,ch=canvas.clientHeight||120;
+  canvas.width=cw*dpr;canvas.height=ch*dpr;
+  const ctx=canvas.getContext('2d');
+  const padL=32,padR=12,padT=10,padB=20;
+  const pw=cw-padL-padR,ph=ch-padT-padB;
+  const maxKm=Math.max(1,profile[profile.length-1].km);
+  const depMin=parseDepMinutes();
+
+  const paint=hoverRatio=>{
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    const isLight=document.documentElement.getAttribute('data-theme')==='light';
+    const gridCol=isLight?'#e2e8f0':'rgba(56, 78, 114, 0.35)';
+    const txtCol=isLight?'#64748b':'#94a3b8';
+    const lineCol=isLight?'#2563eb':'#38bdf8';
+    ctx.clearRect(0,0,cw,ch);
+
+    ctx.strokeStyle=gridCol;ctx.lineWidth=1;
+    [100,50,0].forEach(v=>{
+      const y=padT+ph*(1-v/100);
+      ctx.beginPath();ctx.moveTo(padL,y);ctx.lineTo(cw-padR,y);ctx.stroke();
+      ctx.fillStyle=txtCol;ctx.font='10px "JetBrains Mono", monospace';
+      ctx.fillText(v+'%',2,y+3);
+    });
+
+    const resY=padT+ph*(1-reserveSoc/100);
+    ctx.save();
+    ctx.strokeStyle='#f43f5e';ctx.setLineDash([4,4]);
+    ctx.beginPath();ctx.moveTo(padL,resY);ctx.lineTo(cw-padR,resY);ctx.stroke();
+    ctx.restore();
+
+    ctx.beginPath();
+    profile.forEach((pt,idx)=>{
+      const x=padL+(pt.km/maxKm)*pw,y=padT+ph*(1-pt.soc/100);
+      if(idx===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);
+    });
+    ctx.lineTo(padL+pw,padT+ph);ctx.lineTo(padL,padT+ph);ctx.closePath();
+    const grad=ctx.createLinearGradient(0,padT,0,padT+ph);
+    grad.addColorStop(0,'rgba(56, 189, 248, 0.36)');
+    grad.addColorStop(1,'rgba(56, 189, 248, 0.02)');
+    ctx.fillStyle=grad;ctx.fill();
+
+    ctx.beginPath();
+    profile.forEach((pt,idx)=>{
+      const x=padL+(pt.km/maxKm)*pw,y=padT+ph*(1-pt.soc/100);
+      if(idx===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);
+    });
+    ctx.strokeStyle=lineCol;ctx.lineWidth=2.4;ctx.stroke();
+
+    profile.forEach(pt=>{
+      if(pt.isCharge||pt.isVia){
+        const x=padL+(pt.km/maxKm)*pw,y=padT+ph*(1-pt.soc/100);
+        ctx.fillStyle=pt.isVia?'#8b5cf6':'#fbbf24';
+        ctx.beginPath();ctx.arc(x,y,4,0,Math.PI*2);ctx.fill();
+        ctx.strokeStyle='#ffffff';ctx.lineWidth=1.5;ctx.stroke();
+      }
+    });
+
+    ctx.fillStyle=txtCol;ctx.font='10px "JetBrains Mono", monospace';
+    ctx.fillText('0 กม.',padL,ch-4);
+    ctx.fillText(maxKm+' กม.',cw-padR-45,ch-4);
+
+    if(hoverRatio!==null&&hoverRatio>=0&&hoverRatio<=1){
+      const pt=interpProfile(profile,hoverRatio*maxKm,true);
+      const hx=padL+(pt.km/maxKm)*pw,hy=padT+ph*(1-pt.soc/100);
+      ctx.save();
+      ctx.strokeStyle=lineCol;ctx.lineWidth=1.2;ctx.setLineDash([3,3]);
+      ctx.beginPath();ctx.moveTo(hx,padT);ctx.lineTo(hx,padT+ph);ctx.stroke();
+      ctx.restore();
+      ctx.fillStyle='#ffffff';ctx.beginPath();ctx.arc(hx,hy,5.5,0,Math.PI*2);ctx.fill();
+      ctx.strokeStyle=lineCol;ctx.lineWidth=2.2;ctx.stroke();
+      const info=$('chartHoverInfo');
+      if(info)info.innerHTML=`<span>กม. <b>${Math.round(pt.km)}</b> · ${pt.label} · ⏰ ${fmtClock(pt.min,depMin)}</span><strong>🔋 ${Math.round(pt.soc)}%</strong>`;
+    }else{
+      const info=$('chartHoverInfo');
+      if(info)info.innerHTML=`<span>แตะหรือเลื่อนเมาส์บนกราฟเพื่อดู SoC รายช่วง</span><strong>0 – ${maxKm} กม.</strong>`;
+    }
+  };
+
+  paint(null);
+  const handlePtr=clientX=>{
+    const r=canvas.getBoundingClientRect();if(!r.width)return;
+    const x=clientX-r.left,ratio=Math.max(0,Math.min(1,(x-padL)/Math.max(1,pw)));
+    paint(ratio);
+  };
+  canvas.onmousemove=e=>handlePtr(e.clientX);
+  canvas.onmouseleave=()=>paint(null);
+  canvas.ontouchstart=e=>{if(e.touches[0])handlePtr(e.touches[0].clientX);};
+  canvas.ontouchmove=e=>{if(e.touches[0]){e.preventDefault();handlePtr(e.touches[0].clientX);}};
+}
+
+function runPlan(){
+ const s=+$('from').value,t=+$('to').value,rawVia=+$('via').value,cap=+$('cap').value,soc=+$('soc').value,res=+$('res').value;
+ const speed=+$('speedSelect').value||90;
+ const kwhBattery=+$('kwhCap').value||60;
+ const tariff=parseFloat($('tariffInput').value)||7.5;
+ const kw=+$('chargerKw').value||120;
+ const depMin=parseDepMinutes();
+ const mobFb=$('planMobileFeedback');
+ const validVia=(rawVia>=0&&rawVia!==s&&rawVia!==t)?rawVia:-1;
+
+ $('mrpTitle').textContent=validVia>=0?`${seeds[s].name} ➔ ${seeds[validVia].name} ➔ ${seeds[t].name}`:`${seeds[s].name} ➔ ${seeds[t].name}`;
+
+ if(s===t&&validVia<0){
+   currentRouteResult=null;
+   $('routeStatusBadge').textContent='ข้อมูลไม่ถูกต้อง';
+   const msg='<p class="err-box">จังหวัดต้นทางและปลายทางเป็นจังหวัดเดียวกัน กรุณาเลือกจังหวัดปลายทางอื่น หรือเลือกจังหวัดแวะผ่านสำหรับเดินทางแบบวนรอบ</p>';
+   $('out').innerHTML=msg;
+   mobFb.innerHTML=msg;
+   mobFb.className='plan-mobile-feedback show';
+   $('mrpSub').textContent='ต้นทางและปลายทางซ้ำกัน · แตะเพื่อแก้ไข';
+   $('mReportBadge').classList.remove('show');
+   draw([]);
+   return false;
+ }
+
+ const r=plan(s,t,cap,soc,res,speed,rawVia,activeStrategy,kw,kwhBattery);
+ if(!r){
+   currentRouteResult=null;
+   $('routeStatusBadge').textContent='ระยะทางเกินความจุ';
+   const msg='<p class="err-box">ไม่สามารถเดินทางถึงปลายทางได้: มีช่วงถนนที่ไกลเกินกว่าระยะวิ่งของแบตเตอรี่ กรุณาเพิ่มระยะวิ่งเต็มแบต (เช่น 300-500 กม.) หรือเพิ่มระดับแบตเตอรี่เริ่มต้น</p>';
+   $('out').innerHTML=msg;
+   mobFb.innerHTML=msg;
+   mobFb.className='plan-mobile-feedback show';
+   $('mrpSub').textContent='ระยะทางเกินความจุ · แตะเพื่อแก้ไข';
+   $('mReportBadge').classList.remove('show');
+   draw([]);
+   return false;
+ }
+
+ mobFb.innerHTML='';
+ mobFb.className='plan-mobile-feedback';
+
+ const h=Math.floor(r.min/60),m=String(r.min%60).padStart(2,'0');
+ const dh=Math.floor(r.driveMins/60),dm=String(r.driveMins%60).padStart(2,'0');
+ const arrClock=fmtClock(r.min,depMin);
+ const totalKwhUsed=Math.round((r.km/cap)*kwhBattery*10)/10;
+ const estCost=Math.round(totalKwhUsed*tariff);
+ const iceFuelCost=Math.round((r.km/14)*36);
+ const savedBaht=Math.max(0,iceFuelCost-estCost);
+ const co2SavedKg=Math.round(r.km*0.12);
+ const STRAT_NAMES={fastest:'⚡ เร็วที่สุด',fewest:'🛑 ชาร์จน้อยสุด',safe:'🛡️ ปลอดภัยสูง'};
+
+ currentRouteResult={...r,depMin,totalKwhUsed,estCost,savedBaht,co2SavedKg,tariff,kwhBattery,fromProv:s,toProv:t};
+ $('routeStatusBadge').textContent=`ถึง ~${arrClock}`;
+ fit(r.path);
+ draw(r.path,r.provs,r);
+
+ $('mrpSub').textContent=`${r.km.toLocaleString()} กม. · ${h}:${m} ชม. · ถึง ${arrClock} · ⚡ ${r.stops} ชาร์จ`;
+ $('mReportBadge').textContent=r.stops>0?`${r.stops} ชาร์จ`:'ถึงตรง';
+ $('mReportBadge').classList.add('show');
+
+ const bar=w=>`<div class="mb"><i style="width:${w}%"></i></div>`;
+ const li=x=>{
+   if(x.k==='charge'){
+     const addedKwh=Math.round(((x.to-x.from)/100)*kwhBattery*10)/10;
+     const stopCost=Math.round(addedKwh*tariff);
+     const segInfo=x.km>0?`ขับมา ${x.km} กม. · `:'ชาร์จที่จุดแวะผ่าน W · ';
+     return `<li class="charge" data-node="${x.nodeIdx}">
+       <div>
+         <b>⚡ จุดชาร์จ #${x.stopNum}: ${x.name}</b>
+         <span>เข้า ${fmtClock(x.arrMin,depMin)} ➔ ออก ${fmtClock(x.depMin,depMin)} · จ.${x.prov} · ${segInfo}DC ${r.kw} kW (+${addedKwh} kWh · ~${x.cMin} นาที · ~${stopCost} ฿)</span>
+       </div>
+       <div class="soc-pill-wrap">
+         <div class="soc-pill-label">${x.from}% → ${x.to}%</div>
+         ${bar(x.to)}
+       </div>
+     </li>`;
+   }
+   if(x.k==='via'){
+     return `<li class="via" data-node="${x.nodeIdx}">
+       <div>
+         <b>📍 จุดแวะผ่าน (W): จ.${x.name}</b>
+         <span>ถึง ${fmtClock(x.etaMin,depMin)} · ขับช่วงนี้ ${x.km} กม. (สะสม ${x.totalKm} กม.) · แบตเตอรี่คงเหลือ ${x.soc}%</span>
+       </div>
+       <div class="soc-pill-wrap">
+         <div class="soc-pill-label">${x.soc}%</div>
+         ${bar(x.soc)}
+       </div>
+     </li>`;
+   }
+   if(x.k==='start'){
+     return `<li data-node="${x.nodeIdx}">
+       <div>
+         <b>จุดเริ่มต้น (A): จ.${x.name}</b>
+         <span>ออกเดินทาง ${fmtClock(0,depMin)} · แบตเตอรี่เริ่มต้น ${x.soc}%</span>
+       </div>
+       <div class="soc-pill-wrap">
+         <div class="soc-pill-label">${x.soc}%</div>
+         ${bar(x.soc)}
+       </div>
+     </li>`;
+   }
+   return `<li class="end" data-node="${x.nodeIdx}">
+     <div>
+       <b>ปลายทาง (B): จ.${x.name}</b>
+       <span>ถึงที่หมาย ~${fmtClock(x.etaMin,depMin)} · ช่วงสุดท้าย ${x.km} กม. · แบตเตอรี่คงเหลือ ${x.soc}%</span>
+     </div>
+     <div class="soc-pill-wrap">
+       <div class="soc-pill-label">${x.soc}%</div>
+       ${bar(x.soc)}
+     </div>
+   </li>`;
+ };
+
+ const provBadgesHtml=r.provs.map((pIdx,idx)=>{
+   const cls=idx===0?'prov-pill origin':idx===r.provs.length-1?'prov-pill dest':'prov-pill';
+   const arrow=idx<r.provs.length-1?'<span class="prov-arrow">➔</span>':'';
+   return `<span class="${cls}">${idx+1}. ${seeds[pIdx].name}</span>${arrow}`;
+ }).join('');
+
+ $('out').innerHTML=`
+   <div class="kpi-grid">
+     <div class="kpi-card"><b>${r.km.toLocaleString()}</b><span>ระยะทางรวม (กม.)</span></div>
+     <div class="kpi-card"><b>${h}:${m}</b><span>เวลารวม (ชม.:นาที)</span></div>
+     <div class="kpi-card"><b>${r.stops}</b><span>จุดแวะชาร์จ (ครั้ง)</span></div>
+   </div>
+
+   <div class="cost-summary-grid">
+     <div class="cost-box">
+       <small>พลังงานที่ใช้รวม</small>
+       <strong>${totalKwhUsed} kWh</strong>
+     </div>
+     <div class="cost-box">
+       <small>ประมาณการค่าชาร์จไฟ</small>
+       <strong>~${estCost.toLocaleString()} ฿</strong>
+     </div>
+     <div class="cost-box saving">
+       <small>ประหยัดกว่าน้ำมัน / ลด CO₂</small>
+       <strong>+${savedBaht.toLocaleString()} ฿ (${co2SavedKg} kg)</strong>
+     </div>
+   </div>
+
+   <div class="algo-telemetry">
+     <span>โหมด: <b>${STRAT_NAMES[r.strategy]||r.strategy}</b> · DC <b>${r.kw} kW</b></span>
+     <span>สำรวจกราฟ <b>${r.statesExplored.toLocaleString()}</b> สถานะ · <b>${r.execMs} ms</b></span>
+   </div>
+
+   <div class="chart-container">
+     <div class="chart-header">
+       <span>กราฟระดับแบตเตอรี่ตลอดเส้นทาง (SoC Profile %)</span>
+       <span>ขับ ${dh}:${dm} ชม. · ชาร์จ ${r.chargeMins} นาที</span>
+     </div>
+     <canvas id="socChart"></canvas>
+     <div class="chart-hover-info" id="chartHoverInfo"></div>
+   </div>
+
+   <div class="prov-flow">
+     <div class="prov-flow-title">
+       <span>เส้นทางผ่าน ${r.provs.length} จังหวัด</span>
+       <span style="font-weight:500;color:var(--text-muted)">ลำดับการเดินทาง</span>
+     </div>
+     <div class="prov-badges">${provBadgesHtml}</div>
+   </div>
+
+   <ul class="tl">${r.steps.map(li).join('')}</ul>
+ `;
+
+ renderSocChart(r.profile,res);
+
+ $('out').querySelectorAll('ul.tl li').forEach(item=>{
+   item.onclick=()=>{
+     const nid=+item.dataset.node;
+     if(isNaN(nid))return;
+     if(isMobile()){
+       switchMobileTab('map');
+       requestAnimationFrame(()=>focusNode(nid));
+     }else{
+       focusNode(nid);
+     }
+   };
+ });
+ return true;
+}
+
+$('go').onclick=()=>{
+  const ok=runPlan();
+  if(isMobile() && ok)switchMobileTab('map');
+};
+$('from').onchange=runPlan;
+$('to').onchange=runPlan;
+
+// Share Deep Link, Copy Itinerary & CSV Export
+function copyText(txt,toastMsg){
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(txt).then(()=>showToast(toastMsg)).catch(()=>{
+      fallbackCopy(txt);showToast(toastMsg);
+    });
+  }else{
+    fallbackCopy(txt);showToast(toastMsg);
+  }
+}
+function fallbackCopy(txt){
+  const ta=document.createElement('textarea');
+  ta.value=txt;ta.style.position='fixed';ta.style.opacity='0';
+  document.body.appendChild(ta);ta.select();
+  try{document.execCommand('copy');}catch(_){}
+  document.body.removeChild(ta);
+}
+
+$('btnShare').onclick=()=>{
+  const params=new URLSearchParams({
+    from:$('from').value,to:$('to').value,via:$('via').value,
+    cap:$('cap').value,soc:$('soc').value,res:$('res').value,
+    spd:$('speedSelect').value,kwh:$('kwhCap').value,kw:$('chargerKw').value,
+    tar:$('tariffInput').value,dep:$('depTime').value,strat:activeStrategy
+  });
+  const base=window.location.href.split('?')[0];
+  const url=`${base}?${params.toString()}`;
+  try{history.replaceState(null,'',`?${params.toString()}`);}catch(_){}
+  copyText(url,'คัดลอกลิงก์เส้นทางพร้อมตั้งค่าแล้ว 🔗');
+};
+
+$('btnCopyText').onclick=()=>{
+  const r=currentRouteResult;
+  if(!r){showToast('กรุณาคำนวณเส้นทางก่อนคัดลอก');return;}
+  const h=Math.floor(r.min/60),m=String(r.min%60).padStart(2,'0');
+  const routeTitle=r.via>=0?`${seeds[r.fromProv].name} ➔ ${seeds[r.via].name} ➔ ${seeds[r.toProv].name}`:`${seeds[r.fromProv].name} ➔ ${seeds[r.toProv].name}`;
+  const lines=[
+    `🚗 แผนการเดินทาง EV ประเทศไทย: ${routeTitle}`,
+    `ระยะทางรวม: ${r.km.toLocaleString()} กม. | เวลารวม: ${h}:${m} ชม. (ถึง ~${fmtClock(r.min,r.depMin)})`,
+    `จุดแวะชาร์จ: ${r.stops} ครั้ง (DC ${r.kw} kW) | พลังงาน ~${r.totalKwhUsed} kWh | ค่าไฟ ~${r.estCost.toLocaleString()} ฿`,
+    '----------------------------------------'
+  ];
+  r.steps.forEach((st,idx)=>{
+    if(st.k==='start')lines.push(`${idx+1}. [เริ่มต้น] จ.${st.name} | ออก ${fmtClock(0,r.depMin)} | แบต ${st.soc}%`);
+    else if(st.k==='via')lines.push(`${idx+1}. [แวะผ่าน W] จ.${st.name} | ถึง ${fmtClock(st.etaMin,r.depMin)} | สะสม ${st.totalKm} กม. | แบต ${st.soc}%`);
+    else if(st.k==='charge')lines.push(`${idx+1}. [ชาร์จ #${st.stopNum}] ${st.name} (จ.${st.prov}) | ${fmtClock(st.arrMin,r.depMin)} ➔ ${fmtClock(st.depMin,r.depMin)} | ${st.from}% → ${st.to}% (~${st.cMin} นาที)`);
+    else lines.push(`${idx+1}. [ปลายทาง] จ.${st.name} | ถึง ~${fmtClock(st.etaMin,r.depMin)} | สะสม ${st.totalKm} กม. | เหลือ ${st.soc}%`);
+  });
+  copyText(lines.join('\n'),'คัดลอกแผนการเดินทางลงคลิปบอร์ดแล้ว 📋');
+};
+
+$('btnExportCsv').onclick=()=>{
+  const r=currentRouteResult;
+  if(!r){showToast('กรุณาคำนวณเส้นทางก่อนส่งออก CSV');return;}
+  const esc=v=>`"${String(v??'').replace(/"/g,'""')}"`;
+  const rows=[['ลำดับ','ประเภท','สถานที่/สถานี','จังหวัด','เวลาคาดการณ์','ระยะช่วง (กม.)','ระยะสะสม (กม.)','แบตเตอรี่ (%)','หมายเหตุ'].map(esc).join(',')];
+  r.steps.forEach((st,idx)=>{
+    const prov=st.k==='charge'?st.prov:seeds[N[st.nodeIdx].p].name;
+    if(st.k==='start')rows.push([idx+1,'เริ่มต้น',st.name,prov,fmtClock(0,r.depMin),0,0,st.soc+'%','ออกเดินทาง'].map(esc).join(','));
+    else if(st.k==='via')rows.push([idx+1,'แวะผ่าน (W)',st.name,prov,fmtClock(st.etaMin,r.depMin),st.km,st.totalKm,st.soc+'%','จุดแวะผ่านตามแผน'].map(esc).join(','));
+    else if(st.k==='charge'){
+      const addKwh=Math.round(((st.to-st.from)/100)*r.kwhBattery*10)/10;
+      rows.push([idx+1,'จุดชาร์จ #'+st.stopNum,st.name,prov,`${fmtClock(st.arrMin,r.depMin)} - ${fmtClock(st.depMin,r.depMin)}`,st.km,st.totalKm,`${st.from}% -> ${st.to}%`,`DC ${r.kw}kW +${addKwh}kWh (${st.cMin} นาที)`].map(esc).join(','));
+    }else rows.push([idx+1,'ปลายทาง',st.name,prov,fmtClock(st.etaMin,r.depMin),st.km,st.totalKm,st.soc+'%','ถึงที่หมาย'].map(esc).join(','));
+  });
+  const blob=new Blob(['\uFEFF'+rows.join('\r\n')],{type:'text/csv;charset=utf-8;'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;a.download=`ev-route-${seeds[r.fromProv].name}-${seeds[r.toProv].name}.csv`;
+  document.body.appendChild(a);a.click();document.body.removeChild(a);
+  setTimeout(()=>URL.revokeObjectURL(url),1000);
+  showToast('ส่งออกตารางเส้นทาง CSV เรียบร้อยแล้ว 📥');
+};
+
+// Province & Station Search Directory + Region Filter
+function renderDirectory(q=''){
+  const clean=q.trim().toLowerCase();
+  const matches=seeds.map((s,i)=>({s,i,st:cnt[i]||0,reg:regOf(i)}))
+    .filter(x=>(activeRegion==='all'||x.reg===activeRegion)&&(!clean||x.s.name.toLowerCase().includes(clean)));
+  const limit=(clean||activeRegion!=='all')?77:25;
+  $('provDirectory').innerHTML=matches.length?matches.slice(0,limit).map(x=>`
+    <div class="station-row" data-prov="${x.i}">
+      <span><b>จ.${x.s.name}</b></span>
+      <small>⚡ ${x.st} สถานี · ดูพื้นที่</small>
+    </div>
+  `).join(''):'<div style="padding:12px;text-align:center;font-size:12px;color:var(--text-muted)">ไม่พบจังหวัดในหมวดหมู่ที่เลือก</div>';
+  $('provDirectory').querySelectorAll('.station-row').forEach(row=>{
+    row.onclick=()=>{
+      const p=+row.dataset.prov;
+      if(isMobile()){
+        switchMobileTab('map');
+        requestAnimationFrame(()=>{
+          openProvincePopup(p);
+          focusNode(p);
+        });
+      }else{
+        openProvincePopup(p);
+        focusNode(p);
+      }
+    };
+  });
+}
+$('provSearch').oninput=e=>renderDirectory(e.target.value);
+renderDirectory();
+
+// Theme Switcher (Dark Command Center / Light Official GIS)
+$('btnTheme').onclick=()=>{
+  const cur=document.documentElement.getAttribute('data-theme');
+  const next=cur==='light'?'dark':'light';
+  document.documentElement.setAttribute('data-theme',next);
+  $('themeColorMeta').content=next==='light'?'#f1f5f9':'#060911';
+  $('themeIcon').textContent=next==='light'?'🌙':'☀️';
+  $('themeText').textContent=next==='light'?'โหมดมืด':'โหมดสว่าง';
+  if(currentRouteResult)renderSocChart(currentRouteResult.profile,+$('res').value);
+};
+
+$('btnPrint').onclick=()=>window.print();
+
+function applyUrlParams(){
+  const p=new URLSearchParams(window.location.search);
+  const validProv=v=>v!==null&&!isNaN(+v)&&+v>=0&&+v<seeds.length;
+  if(validProv(p.get('from')))$('from').value=String(+p.get('from'));
+  if(validProv(p.get('to')))$('to').value=String(+p.get('to'));
+  if(validProv(p.get('via')))$('via').value=String(+p.get('via'));
+  const capParam=+p.get('cap');
+  if([250,350,400,500,600].includes(capParam)){
+    $('cap').value=capParam;$('capLabel').textContent=capParam;
+    document.querySelectorAll('.chip').forEach(x=>x.setAttribute('aria-pressed',parseInt(x.dataset.cap||x.textContent)===capParam));
+  }
+  const socParam=+p.get('soc');
+  if(!isNaN(socParam)&&socParam>=10&&socParam<=100){$('soc').value=socParam;updateSocMeter();}
+  const resParam=+p.get('res');
+  if([10,15,20].includes(resParam)){$('res').value=resParam;$('resSelect').value=String(resParam);}
+  const spdParam=+p.get('spd');
+  if([80,90,100,110].includes(spdParam))$('speedSelect').value=String(spdParam);
+  const kwhParam=+p.get('kwh');
+  if([45,60,75,90].includes(kwhParam))$('kwhCap').value=String(kwhParam);
+  const kwParam=+p.get('kw');
+  if([50,120,180,250].includes(kwParam))$('chargerKw').value=String(kwParam);
+  const tarParam=parseFloat(p.get('tar'));
+  if(!isNaN(tarParam)&&tarParam>=4&&tarParam<=15)$('tariffInput').value=tarParam;
+  const depParam=p.get('dep');
+  if(depParam&&/^\d{2}:\d{2}$/.test(depParam))$('depTime').value=depParam;
+  const stratParam=p.get('strat');
+  if(['fastest','fewest','safe'].includes(stratParam)){
+    activeStrategy=stratParam;
+    document.querySelectorAll('#strategyBar .strategy-btn').forEach(b=>b.classList.toggle('active',b.dataset.strategy===stratParam));
+  }
+}
+
+// Initial Render
+applyUrlParams();
+vb.w=fitW();apply();runPlan();
+</script>
+</body>
+</html>
